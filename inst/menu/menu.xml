@@ -120,43 +120,43 @@
     <separator/>
     <menuitem>
       <name>Loading and merging data</name>
-      <command>CADStat.help(doc='loaddata.xhtml')</command>
+      <command>CADStat.help(doc='loaddata.html')</command>
     </menuitem>
     <menuitem>
       <name>Boxplot</name>
-      <command>CADStat.help(doc='boxplot.JGR.xhtml')</command>
+      <command>CADStat.help(doc='boxplot.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Scatterplot</name>
-      <command>CADStat.help(doc='scatterplot.JGR.xhtml')</command>
+      <command>CADStat.help(doc='scatterplot.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Linear Regression</name>
-      <command>CADStat.help(doc='lm.JGR.xhtml')</command>
+      <command>CADStat.help(doc='lm.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Regression Prediction</name>
-      <command>CADStat.help(doc='glm.pred.JGR.xhtml')</command>
+      <command>CADStat.help(doc='glm.pred.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Quantile Regression</name>
-      <command>CADStat.help(doc='rq.JGR.xhtml')</command>
+      <command>CADStat.help(doc='rq.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Correlation Analysis</name>
-      <command>CADStat.help(doc='cor.JGR.xhtml')</command>
+      <command>CADStat.help(doc='cor.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Regression Trees</name>
-      <command>CADStat.help(doc='rpart.JGR.xhtml')</command>
+      <command>CADStat.help(doc='rpart.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Conditional Probability</name>
-      <command>CADStat.help(doc='conditionalprob.JGR.xhtml')</command>
+      <command>CADStat.help(doc='conditionalprob.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Predicting env. conditions from biological observations</name>
-      <command>CADStat.help(doc='bioinfer.JGR.xhtml')</command>
+      <command>CADStat.help(doc='bioinfer.JGR.html')</command>
     </menuitem>
 
   </menu>
@@ -168,7 +168,7 @@
     </menuitem>
     <menuitem>
       <name>About CADStat</name>
-      <command>CADStat.help(doc='CADStat.JGR.xhtml')</command>
+      <command>CADStat.help(doc='CADStat.JGR.html')</command>
     </menuitem>
   </menu>
 </menus>
