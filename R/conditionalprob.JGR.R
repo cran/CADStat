@@ -51,6 +51,8 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
   n = nrow(my.data)
 
   prob.direction.logical = regexpr("g|>",prob.direction)>0
+  xunique <- sort(unique(my.data[,x]), decreasing = !prob.direction.logical)
+  
   ord = order(my.data[,x],my.data[,y],decreasing=!prob.direction.logical)  
   my.data = my.data[ord,]
   ord = order(my.data[,x])
@@ -58,17 +60,34 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
     weights = "weights"
     my.data$weights = 1
   }
-  condprob = condprob.fn(response=my.data[,y],wts=my.data[,weights],ord=ord,
-                         cond.val=cond.val,cond.val.direction=cond.val.direction)
+  condprob <- condprob.fn(response=my.data[,y],wts=my.data[,weights],
+                         cond.val=cond.val,cond.val.direction=cond.val.direction,
+                          stressor=my.data[,x], xunique = xunique,
+                          p.direct = prob.direction.logical)
 
-  if(!is.null(R) & !(coef(lm(condprob~my.data[,x]))[[2]]<0 & !prob.direction.logical) ){
-    condprod.boot =  matrix(NA,R,n)
+  if (! is.null(R)) {
+#  if(!is.null(R) & !(coef(lm(condprob~xunique))[[2]]<0 &
+#                     !prob.direction.logical) ){
+#    condprod.boot =  matrix(NA,R, n)
+    condprod.boot =  matrix(NA,R,length(xunique))
     for(r in 1:R){
-      sampler  = resample(c(0,1),n,replace=TRUE)
-      fudge    = as.numeric(any(my.data[,y]==0))
-      response = condprob.impute((my.data[,y]+fudge)*sampler,c(1:n),prob.direction.logical)
-      condprod.boot[r,] = condprob.fn(response=(response-fudge),wts=my.data[,weights],ord=ord,
-                                      cond.val=cond.val,cond.val.direction=cond.val.direction)
+      isamp <- sample(1:nrow(my.data), replace = TRUE, prob=my.data[, weights])
+      my.data.resamp <- my.data[isamp, ]
+#      sampler  = resample(c(0,1),n,replace=TRUE)
+#      fudge    = as.numeric(any(my.data[,y]==0))
+#      response <- condprob.impute((my.data[,y]+fudge)*sampler,c(1:n),
+#                                  prob.direction.logical)
+#      condprod.boot[r,] <- condprob.fn(response=(response-fudge),
+#                                       wts=my.data[,weights],ord=ord,
+#                                       cond.val=cond.val,
+#                                       cond.val.direction=cond.val.direction)
+      condprod.boot[r,] <- condprob.fn(response=my.data.resamp[, y],
+                                       wts=my.data.resamp[,weights],
+                                       cond.val=cond.val,
+                                       cond.val.direction=cond.val.direction,
+                                       stressor = my.data.resamp[,x],
+                                       xunique = xunique,
+                                       p.direct = prob.direction.logical)
     }
   }
 
@@ -83,18 +102,22 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
     #    main="Cumulative Distribution Function",cex.lab=cex.lab, cex=cex, cex.axis=cex.axis,las=1)
   }
   par(mar=c(5,6,4,2)+0.1)
-  plot((my.data[,x]),condprob,ylim=c(0,1),
-        ylab=paste("Probability of",y,cond.val.direction,cond.val,"if X",prob.direction,"Xc"),
+  plot(xunique,condprob,ylim=c(0,1),
+        ylab=paste("Probability of",ylab,cond.val.direction,cond.val,"if X",prob.direction,"Xc"),
         xlab=paste("Xc,",xlab),pch=pch, col=col,
         main=main,cex.lab=cex.lab, cex=cex, cex.axis=cex.axis,las=1)
-  if(!is.null(R) & !(!(coef(lm(condprob~my.data[,x]))[[2]]>0) & !prob.direction.logical) ){
-    points((my.data[,x]),(apply(condprod.boot,2,quantile,1-as.numeric(alpha))),col="grey",type="l")
-    points((my.data[,x]),(apply(condprod.boot,2,quantile,as.numeric(alpha))),col="grey",type="l")
+  if (! is.null(R)) {
+#  if(!is.null(R) & !(!(coef(lm(condprob~xunique))[[2]]>0) &
+#                     !prob.direction.logical) ){
+    points(xunique,(apply(condprod.boot,2,quantile,1-as.numeric(alpha),
+                          na.rm = TRUE)),col="grey",type="l")
+    points(xunique,(apply(condprod.boot,2,quantile,as.numeric(alpha),
+                          na.rm = TRUE)),col="grey",type="l")
   }
-  if( !is.null(R) & coef(lm(condprob~my.data[,x]))[[2]]<0 & !prob.direction.logical ){
-    par(lheight=1.5)
-    text(median(my.data[,x]),y=0.2,cex=1.25,pos=4,"Confidence intervals are not calculated for\nProbability Direction of '<=' and a decreasing\nstressor-response relationship.")
-  }
+#  if( !is.null(R) & coef(lm(condprob~xunique))[[2]]<0 & !prob.direction.logical ){
+#    par(lheight=1.5)
+#    text(median(xunique),y=0.2,cex=1.25,pos=4,"Confidence intervals are not calculated for\nProbability Direction of '<=' and a decreasing\nstressor-response relationship.")
+#  }
   grid()
 
   if(browserResults){
@@ -105,22 +128,51 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
   return(invisible())
 }
 
-condprob.fn = function(response,wts,ord,cond.val,cond.val.direction){
+condprob.fn <- function(response,wts,cond.val,cond.val.direction,
+                        stressor, xunique, p.direct){
   n = length(response)
-  if(is.null(wts)) wts = rep(1,n)
+  nunique <- length(xunique)
+  Num   <- numeric(nunique)
+  Denom <- numeric(nunique)
   if(regexpr("l|<",cond.val.direction)>0) {
-    w.expr = expression(wts[i:n][response[i:n] < cond.val])
+    w.expr = expression(wts[incvec][response[incvec] < cond.val])
   } else {
-    w.expr = expression(wts[i:n][response[i:n] > cond.val])
+    w.expr = expression(wts[incvec][response[incvec] > cond.val])
   }
-  Num   = numeric(n)
-  Denom = numeric(n)
-  for(i in ord){
-    Num[i]   = sum(eval(w.expr))
-    Denom[i] = sum(wts[i:n])
+  if(is.null(wts)) wts = rep(1,n)
+  if (p.direct) {
+    for (i in 1:nunique) {
+      incvec <- stressor >= xunique[i]
+      Num[i] <- sum(eval(w.expr))
+      Denom[i] <- sum(wts[incvec])
+    }
+  }
+  else {
+    for (i in 1:nunique) {
+      incvec <- stressor <= xunique[i]
+      Num[i] <- sum(eval(w.expr))
+      Denom[i] <- sum(wts[incvec])
+    }
   }
   Num/Denom
 }
+    
+
+#  if(regexpr("l|<",cond.val.direction)>0) {
+#    w.expr = expression(wts[i:n][response[i:n] < cond.val])
+#  } else {
+#    w.expr = expression(wts[i:n][response[i:n] > cond.val])
+#  }
+  
+#  Num   = numeric(n)
+#  Denom = numeric(n)
+
+#  for(i in ord){
+#    Num[i]   = sum(eval(w.expr))
+#    Denom[i] = sum(wts[i:n])
+#  }
+#  Num/Denom
+#}
 
 condprob.impute = function(x,o,exceed.logical){
   ord      = order(o,decreasing=exceed.logical)
