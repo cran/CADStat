@@ -29,9 +29,9 @@ boxplot.JGR <- function(x, result, group.name=NULL, group.val=NULL,
   # find proper data subset
 
   x = gisdt.subset(x, 
-                         subset1.name=subset1.name, subset1.val=subset1.val, 
-                         subset2.name=subset2.name, subset2.val=subset2.val,
-						 na.check=c(result,group.name))
+    subset1.name=subset1.name, subset1.val=subset1.val, 
+    subset2.name=subset2.name, subset2.val=subset2.val,
+    na.check=c(result,group.name))
 
   x$scale = "Original"
   if (plot.type=="both" | plot.type == "log") {
@@ -57,8 +57,7 @@ boxplot.JGR <- function(x, result, group.name=NULL, group.val=NULL,
 
   if(!is.null(group.name)) {
     x[,group.name] =  as.character(x[,group.name])
-    if(length(group.val)>0)
-      x = subset(x,get(group.name) %in% group.val)
+    if(length(group.val)>0) x = subset(x,get(group.name) %in% group.val)
     if(horizontal){ bw.formula = formula(get(group.name)~get(result)|scale) 
     }else{ bw.formula = formula(get(result)~get(group.name)|scale) }
   } else {
@@ -67,23 +66,26 @@ boxplot.JGR <- function(x, result, group.name=NULL, group.val=NULL,
     }else{ bw.formula = formula(get(result)~bw_x|scale) }
   }
 
-  bw.obj = bwplot(bw.formula,data=x,
-                  panel = function(x,y,...){
-                    panel.bwplot(x,y,...)
-                    if(iSampleSize)
-                      if(!horizontal)
-                        panel.text(unique(x),current.panel.limits()$ylim[1],label=paste("n=",rowSums(table(x,y)),sep=""),pos=3,cex=.75)#,adj = c(-0.5, -0.5))
-                      else
-                        panel.text(current.panel.limits()$xlim[1],unique(y),label=paste("n=",rowSums(table(y,x)),sep=""),cex=.75,adj = c(-0.5,7.5))
-                  },
-                  cex=cex,
-                  strip=!(length(unique(x$scale))==1 & unique(x$scale)=="Original"),
-                  ylab=ifelse(horizontal,"",list(result.lab,cex.lab=cex.lab)), 
-                  xlab=ifelse(horizontal,list(result.lab,cex.lab=cex.lab)," "),
-                  main=list(label=main,cex=cex.main),
-		          horizontal=horizontal,
-                  scale=list(y=list(relation='free',rot=0,cex=cex.axis),
-                  x=list(rot=as.numeric(names.rot)*90,cex=cex.axis)))
+  bw.obj = bwplot(bw.formula,data=x, panel = function(x,y,...){
+    panel.bwplot(x,y,...)
+    if(iSampleSize)
+      if(!horizontal)
+        panel.text(sort(unique(x)),current.panel.limits()$ylim[1],
+                   label=paste("n=",rowSums(table(x,y)),sep=""),
+                   pos=3,cex=.75)#,adj = c(-0.5, -0.5))
+      else
+        panel.text(current.panel.limits()$xlim[1],sort(unique(y)),
+                   label=paste("n=",rowSums(table(y,x)),sep=""),
+                   cex=.75,adj = c(-0.5,7.5))
+  },
+    cex=cex,
+    strip=!(length(unique(x$scale))==1 & unique(x$scale)=="Original"),
+    ylab=ifelse(horizontal,"",list(result.lab,cex.lab=cex.lab)), 
+    xlab=ifelse(horizontal,list(result.lab,cex.lab=cex.lab)," "),
+    main=list(label=main,cex=cex.main),
+    horizontal=horizontal,
+    scale=list(y=list(relation='free',rot=0,cex=cex.axis),
+      x=list(rot=as.numeric(names.rot)*90,cex=cex.axis)))
 
   JavaGD(height=500,width=600)
   print(bw.obj)

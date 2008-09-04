@@ -11,13 +11,13 @@
   jgr.removeMenu("Help")
   jgr.removeMenu("Window")
   jgr.removeMenu("Packages")
-  load.menus(libname)
+  #load.menus(libname)
   #CADStat.help(doc="CADStat.JGR.html",doc.path="CADStat/doc",home=.libPaths())
-}
+#}
 
-load.menus = function(libname)
-{
-  library(XML)
+#load.menus = function(libname)
+#{
+  require(XML)
 
   menu.file = file.path(libname,"CADStat","menu","menu.xml")
   menus.dom = xmlTreeParse(menu.file,useInternalNodes = TRUE)

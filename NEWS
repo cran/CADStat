@@ -3,4 +3,7 @@ CADStat NEWS
     o   Added NEWS
 2.1-03
     o   Many bugs fixed.  Documentation updated.
+2.1-12
+    o 	Fixed bug in boxplot sample sizes.
+
 
