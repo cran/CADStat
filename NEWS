@@ -5,5 +5,8 @@ CADStat NEWS
     o   Many bugs fixed.  Documentation updated.
 2.1-12
     o 	Fixed bug in boxplot sample sizes.
+2.1-13
+    o 	Removed dependency on XML for building menus.
+
 
 
