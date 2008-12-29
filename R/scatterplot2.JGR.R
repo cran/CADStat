@@ -68,10 +68,14 @@ scatterplot2.JGR <- function(my.data, subset1.name, subset1.val, subset2.name,
   } else if (n.val1>0) {
     for (i in 1:n.val1)
       {
-        ind <- my.data[,subset1.name] %in% subset1.val[i]
+        ind <- my.data[,subset1.name] %in% subset1.val
 #        png(file=file.path(resultLocation,
 #              paste(subset1.val[i],".png",sep="")),
 #            width=600,height=600)
+        # Color code points by factor level
+        ftemp <- factor(my.data[ind, subset1.name])
+        col <- as.integer(ftemp)
+        
         scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y,
                       main=paste(subset1.val[i], main), xlab=xlab, ylab=ylab,
                       pch=pch, col=col, cex.main=cex.main, cex.lab=cex.lab,
