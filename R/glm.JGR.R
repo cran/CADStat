@@ -171,6 +171,7 @@ glm.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   if(browserResults)
    buildresultsXML(object=list(my.fit,my.fit.ci),location=resultLocation,title=ttl)
 
-  my_glm.fit <<- my.fit
+  globenv <- globalenv()
+  globenv[["my_glm.fit"]] <- my.fit
   return(invisible())
 }

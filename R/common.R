@@ -5,8 +5,9 @@ setVisible <- function(jObj, bVisible)
 }
 
 load.class = function(class){
-  .stv <<- .jnew(class); 
-  setVisible(.stv, TRUE)
+  globenv <- globalenv()
+  globenv[[".stv"]] <- .jnew(class); 
+  setVisible(globenv[[".stv"]], TRUE)
 }
 
 jgr.removeMenu = function(name) 

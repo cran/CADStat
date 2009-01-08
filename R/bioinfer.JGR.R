@@ -48,7 +48,7 @@
   resultLocation = genResultSpace()
 
 
-  data( itis.ttable )
+ # data( itis.ttable )
 
   ## Initial error check
   errorMessage = character()
@@ -74,7 +74,7 @@
     cat("  by typing them in column 2, or just close the editor to continue\n")
     cat("  without corrections.\n")
     flush.console()
-    taxonomyMatrix = try( get.taxonomic( bencntMatrix, itis.ttable,
+    taxonomyMatrix = try( get.taxonomic( bencntMatrix,
       outputFile=NULL ) )
     if( inherits( taxonomyMatrix, "try-error" ) ){
       localJGRError( c( errorMessage,

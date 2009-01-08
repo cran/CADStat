@@ -85,7 +85,15 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
     vars = strsplit(gsub(" ","",my.formula),"~")[[1]]
     yname = vars[1]
     vars = c(yname,strsplit(vars[2],"[+]")[[1]])
-    nas = is.na(apply(my.subset[,vars],1,sum))
+    vars <- vars[-match("1", vars)]
+    print(vars)
+
+    if (length(vars) > 1) {
+      nas = is.na(apply(my.subset[,vars],1,sum))
+    }
+    else {
+      nas <- is.na(my.subset[, vars])
+    }
     my.subset = my.subset[!nas,]
     if( my.family=="poisson" ){
       if( any( ( my.subset[,yname] < 0 ) |
@@ -236,5 +244,6 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   if(browserResults)
     buildresultsXML(object=list(output),location=resultLocation,
                    title="Regression Prediction Summary")
+  else print(output)
   return(invisible())
 }

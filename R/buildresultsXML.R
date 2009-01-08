@@ -44,7 +44,7 @@ buildresultsXML <- function(object=NULL,title=" ",text=NULL,location=stop('Save 
   saveXML(result.nodes,
           file=file.path(location,"results.xml"),
           prefix = '<?xml version="1.0"?>\n<?xml-stylesheet type="text/xsl" href="../../../doc/stylesheets/caddis.xsl"?>\n')
-  browseHelp(file.path(location,"results.xml"))
+  ##browseHelp(file.path(location,"results.xml"))
 }
 
 

@@ -4,7 +4,7 @@ docbook <- function (x,...) {
 
 docbook.try <- function(x,...){
   sectNode <- xmlNode("sect1")
-  append.xmlNode(sectNode,xmlNode("para",error))}
+  append.xmlNode(sectNode,xmlNode("para","error"))}
 
 docbook.default <- function (x,numTable=NULL,...) 
 {

@@ -7,6 +7,17 @@ CADStat NEWS
     o 	Fixed bug in boxplot sample sizes.
 2.1-13
     o 	Removed dependency on XML for building menus.
+2.1-15
+    o 	Cleared R check errors regarding variable binding. 
+    o 	Updated regression and regression prediction to allow intercept only models.
+2.1-16
+    o 	Bio.infer now uses java windows for user input.
+
+  	
+ 
+
+
+
 
 
 
