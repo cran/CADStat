@@ -1,5 +1,5 @@
-\name{bioinfer.JGR}
-\alias{bioinfer.JGR}
+\name{bioinfer.new.JGR}
+\alias{bioinfer.new.JGR}
 \title{Dialog box for predicting env. conditions from biological observations}
 \description{
   This module estimates environmental conditions from observations of

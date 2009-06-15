@@ -51,11 +51,11 @@ buildresultsXML <- function(object=NULL,title=" ",text=NULL,location=stop('Save 
 ## Generate a result folder with random name
 genResultSpace = function(){
   ## make sure results folder exists
-  if( !file.exists( file.path(.libPaths(),"CADStat","workspace","results") ) ){
-    dir.create(file.path(.libPaths(),"CADStat","workspace","results"))
+  if( !file.exists( file.path(.libPaths()[1],"CADStat","workspace","results") ) ){
+    dir.create(file.path(.libPaths()[1],"CADStat","workspace","results"))
   }
   ## test to make sure folder doesn't currently exist
-  while( file.exists( (resFolder=file.path(.libPaths(),"CADStat","workspace","results",
+  while( file.exists( (resFolder=file.path(.libPaths()[1],"CADStat","workspace","results",
                          paste("result",ceiling(runif(1)*100000000),sep=""))) ) ){}
   dir.create(resFolder)
   return( resFolder )
@@ -63,5 +63,5 @@ genResultSpace = function(){
 
 ## Delete all results folders
 cleanCADStatWorkspace = function(){
-  unlink(file.path(.libPaths(),"CADStat","workspace","results","result*"),recursive=TRUE)
+  unlink(file.path(.libPaths()[1],"CADStat","workspace","results","result*"),recursive=TRUE)
 }

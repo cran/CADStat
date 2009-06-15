@@ -10,18 +10,14 @@
   jgr.removeMenu("Preferences")
   jgr.removeMenu("Help")
   jgr.removeMenu("Window")
-  jgr.removeMenu("Packages")
+  #jgr.removeMenu("Packages")
   jgr.addMenuSeparator("Edit")
   jgr.addMenuItem("Edit", "JGR Preferences",
                   ".jnew('org/rosuda/JGR/toolkit/PrefsDialog')")
   jgr.addMenuItem("Edit", "CADStat Preferences",
                   "load.class('org/neptuneinc/cadstat/prefs/PreferencesDialog')")
-  jgr.addMenuSeparator("Tools")
-  jgr.addMenuItem("Tools", "Package Manager",
-                  "package.manager()")
-  jgr.addMenuItem("Tools", "Package Installer",
-                  "installPackages()")
-  jgr.addMenuItem("Tools", "Data Merge",
+  jgr.addMenuSeparator("Packages & Data")
+  jgr.addMenuItem("Packages & Data", "Data Merge",
                   "load.class('org/neptuneinc/cadstat/plots/DataMergeDialog')")
   jgr.addMenuSeparator("Workspace")
   jgr.addMenuItem("Workspace", "Clean CADStat File Workspace",

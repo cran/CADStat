@@ -7,7 +7,11 @@ gisdt.subset <- function(subset.data, subset1.name=NULL, subset1.val=NULL,
   na.check = c(na.check,subset1.name,subset2.name)
   if(any(!is.null(na.check))){
     na.check = na.check[!is.null(na.check)]
-    subset.data = na.omit(subset.data[,na.check,drop=FALSE])
+    # 5.28.2009 corrected bug here
+    #subset.data = na.omit(subset.data[,na.check,drop=FALSE])
+    for (i in 1:length(na.check)) {
+      subset.data <- subset.data[!is.na(subset.data[,na.check[i]]),]
+    }
   }
 
   if (!is.null(subset1.name) & !is.null(subset2.name)) {

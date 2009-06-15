@@ -1,5 +1,5 @@
 cor.JGR <- function(my.data, subset1.name, subset1.val, subset2.name, subset2.val,
-          my.vars, iMethod="pearson", iCI=FALSE, conf.level=0.95, iScatterplot=FALSE, browserResults=TRUE)
+          my.vars, iMethod="pearson", iCI=FALSE, conf.level=0.95, iScatterplot=FALSE, browserResults=FALSE)
 {
   #computes a correlation matrix and confidence intervals for variables in my.vars
   
