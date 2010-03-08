@@ -28,6 +28,8 @@
   jgr.addMenuItem("Graph", "Scatterplot",
                   "load.class('org/neptuneinc/cadstat/plots/ScatterPlot')")
   jgr.addMenu("Analysis Tools")
+  jgr.addMenuItem("Analysis Tools", "Factor Analysis",
+                  "load.class('org/neptuneinc/cadstat/plots/FactorAnalysis')")
   jgr.addMenuItem("Analysis Tools", "Linear Regression",
                   "load.class('org/neptuneinc/cadstat/plots/LinearRegression')")
   jgr.addMenuItem("Analysis Tools", "Regression Prediction",
@@ -41,18 +43,22 @@
   jgr.addMenuSeparator("Analysis Tools")
   jgr.addMenuItem("Analysis Tools", "Conditional Probability",
                   "load.class('org/neptuneinc/cadstat/plots/ConditionalProbability')")
-  jgr.addMenuItem("Analysis Tools", "Predicting env. conditions from biological observations",
-                  "load.class('org/neptuneinc/cadstat/plots/BiologicalInferences')")
+  jgr.addMenuItem("Analysis Tools", "Predicting Environmental Conditions from Biological Observations",
+      "load.class('org/neptuneinc/cadstat/plots/BiologicalInferences')")
+  jgr.addMenuItem("Analysis Tools", "Calculate Trait Metrics",
+      "load.class('org/neptuneinc/cadstat/plots/TraitInferences')")
   jgr.addMenu("Help")
-  jgr.addMenuItem("Help", "R Help",
-                  "browseURL(paste('file:///',file.path(R.home('doc'),'html', 'index.html'), sep = ''))")
+  jgr.addMenuItem("Help", "R Help", "help.start()")
   jgr.addMenuSeparator("Help")
   jgr.addMenuItem("Help", "Loading and merging data",
+#                  "help(doc='loaddata.html')")
                   "CADStat.help(doc='loaddata.html')")
   jgr.addMenuItem("Help", "Boxplot",
+#                  "help('boxplot.JGR')")
                   "CADStat.help(doc='boxplot.JGR.html')")
   jgr.addMenuItem("Help", "Scatterplot",
-                  "CADStat.help(doc='scatterplot.JGR.html')")
+#                   "help('scatterplot.JGR')")
+                   "CADStat.help(doc='scatterplot.JGR.html')")
   jgr.addMenuItem("Help", "Linear Regression",
                   "CADStat.help(doc='lm.JGR.html')")
   jgr.addMenuItem("Help", "Regression Prediction",
@@ -61,12 +67,16 @@
                   "CADStat.help(doc='rq.JGR.html')")
   jgr.addMenuItem("Help", "Correlation Analysis",
                   "CADStat.help(doc='cor.JGR.html')")
+  jgr.addMenuItem("Help", "Factor Analysis/PCA",
+                  "CADStat.help(doc='pca.fa.JGR.html')")
   jgr.addMenuItem("Help", "Regression Trees",
                   "CADStat.help(doc='rpart.JGR.html')")
   jgr.addMenuItem("Help", "Conditional Probability",
                   "CADStat.help(doc='conditionalprob.JGR.html')")
-  jgr.addMenuItem("Help", "Predicting env. conditions from biological observations",
+  jgr.addMenuItem("Help", "Predicting Env. Conditions from Biological Observations",
                   "CADStat.help(doc='bioinfer.JGR.html')")
+  jgr.addMenuItem("Help", "Calculating Trait Metrics",
+                  "CADStat.help(doc='trait.stat.JGR.html')")
   jgr.addMenu("About")
   jgr.addMenuItem("About", "About JGR",
                   ".jnew('org/rosuda/JGR/toolkit/AboutDialog')")

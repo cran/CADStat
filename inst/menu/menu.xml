@@ -2,9 +2,7 @@
 <menus xmlns="http://www.rforge.net/CADStat">
   <menu>
     <name>Edit</name>
-
     <separator/>
-    
     <menuitem>
       <name>JGR Preferences</name>
       <command>.jnew('org/rosuda/JGR/toolkit/PrefsDialog')</command>
@@ -14,12 +12,9 @@
       <command>load.class('org/neptuneinc/cadstat/prefs/PreferencesDialog')</command>
     </menuitem>
   </menu>
-  
   <menu>
     <name>Tools</name>
-
     <separator/>
-    
     <menuitem>
       <name>Package Manager</name>
       <command>package.manager()</command>
@@ -29,25 +24,19 @@
       <command>installPackages()</command>
     </menuitem>
     <separator/>
-    
     <menuitem>
       <name>Data Merge</name>
       <command>load.class('org/neptuneinc/cadstat/plots/DataMergeDialog');</command>
     </menuitem>
   </menu>
-
   <menu>
     <name>Workspace</name>
-
     <separator/>
-    
     <menuitem>
       <name>Clean CADStat File Workspace</name>
       <command>cleanCADStatWorkspace()</command>
     </menuitem>
   </menu>
-  
-  
   <menu>
     <name>Graph</name>
     <menuitem>
@@ -59,22 +48,8 @@
       <command>load.class('org/neptuneinc/cadstat/plots/ScatterPlot')</command>
     </menuitem>
   </menu>
-  
   <menu>
-  
-  <name>Analysis Tools</name>
-    <!--  
-    <menuitem>
-      <name>Boxplot</name>
-      <command>load.class('org/neptuneinc/cadstat/plots/BoxPlot')</command>
-    </menuitem>
-    <menuitem>
-      <name>Scatterplot</name>
-      <command>load.class('org/neptuneinc/cadstat/plots/ScatterPlot')</command>
-    </menuitem>
-
-    <separator/>
-    -->
+    <name>Analysis Tools</name>
     <menuitem>
       <name>Linear Regression</name>
       <command>load.class('org/neptuneinc/cadstat/plots/LinearRegression')</command>
@@ -95,22 +70,21 @@
       <name>Tree Regression</name>
       <command>load.class('org/neptuneinc/cadstat/plots/TreeRegression')</command>
     </menuitem>
-    
+    <menuitem>
+      <name>Factor Analysis</name>
+      <command>load.class('org/neptuneinc/cadstat/plots/FactorAnalysis')</command>
+    </menuitem>
     <separator/>
-    
     <menuitem>
       <name>Conditional Probability</name>
       <command>load.class('org/neptuneinc/cadstat/plots/ConditionalProbability')</command>
     </menuitem>
     <menuitem>
-      <name>Predicting env. conditions from biological observations</name>
+      <name>Predicting Env Conditions from Bio Observations</name>
       <command>load.class('org/neptuneinc/cadstat/plots/BiologicalInferences')</command>
     </menuitem>
-
     <separator/>
-
   </menu>
-
   <menu>
     <name>Help</name>
     <menuitem>

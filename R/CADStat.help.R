@@ -9,10 +9,11 @@ CADStat.help <- function(topic=NULL,doc="CADStat.JGR.html",doc.path=file.path("C
       helpURL <- file.path(.Library,"CADStat","html",paste(topic,".html",sep=""))
     }
   }else{
-     helpURL <- file.path(home[1],doc.path,doc)
+     helpURL <- paste("file:///",file.path(home[1],doc.path,doc),sep="")
   }
-  browseHelp(helpURL)
   
+# browseHelp(helpURL)
+  browseURL(helpURL,browser=NULL)
   invisible("")
 }
 

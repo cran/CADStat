@@ -1,4 +1,4 @@
-glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
+glm.pred.JGR = function(my.data, sampsize.name=NULL, subset1.name,
                          subset1.val, subset2.name, subset2.val,
                          site.name, site.val,
                          my.formula, my.family="gaussian",
@@ -24,27 +24,23 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
 ### my.contrast  numeric vector giving the contrast of interest
 ### iRmIntercept indicates whether the model should be fit without an intercept
 ### sig.level    significance level -- used for flagging high t-values
-  
+
   ## Get place to store results
-  resultLocation = genResultSpace()
+  if (browserResults) resultLocation = genResultSpace()
   
   ## a function to strip leading/trailing white-space (shouldn't be
   ##   needed, but in case called with spaces in my.formula ...
   stripwhite = function(x){ gsub("[[:space:]]+$","",gsub("^[[:space:]]+","",x)) }
 
-  ## find proper data subset
-  n.val1 <- length(subset1.val)
-  n.val2 <- length(subset2.val)
-  
-  if (n.val1>0 & n.val2>0) {
-    my.subset <- my.data[my.data[,subset1.name]%in%subset1.val & my.data[,subset2.name]%in%subset2.val,]
-  } else if (n.val1>0) {
-    my.subset <- my.data[my.data[,subset1.name]%in%subset1.val,]
-  } else if (n.val2>0) {
-    my.subset <- my.data[my.data[,subset2.name]%in%subset2.val,]
-  } else {
-    my.subset <- my.data
-  }
+  # NA handling
+  # use options to set na.action to omit NAs which is used by lm
+  options(na.action = "na.omit")
+
+  #find proper data subset
+  ind = rep(TRUE, nrow(my.data))
+  if (length(subset1.val)>0) ind = ind & my.data[,subset1.name]%in%subset1.val
+  if (length(subset2.val)>0) ind = ind & my.data[,subset2.name]%in%subset2.val
+  my.subset = my.data[ind,]
 
   ## Check for sensible binomial inputs and remove NA rows
   if( my.family == "binomial" ){
@@ -63,44 +59,53 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
     nna = !is.na(yy) & !is.na(nn)
     yyna = yy[nna]
     nnna = nn[nna]
+    
     if( any( ( yyna < 0 ) || ( yyna != as.integer(yyna[1]) ) ) ){
-      localJGRError( paste( "To fit data under the binomial distribution,",
-                "the dependent variable must contain only non-negative integers." ),
-                resultLocation, geterr=FALSE )
+      if (browserResults) {
+        localJGRError("To fit data under the binomial distribution, the dependent variable must contain only non-negative integers.", resultLocation, geterr=FALSE)
+      } else {
+      	stop("To fit data under the binomial distribution, the dependent variable must contain only non-negative integers.", call.=FALSE)
+      }
     }
+    
     if( any( ( nnna < 0 ) || ( nnna != as.integer(nnna[1]) ) ) ){
-      localJGRError( paste( "To fit data under the binomial distribution,",
-                "the sample size variable must contain only non-negative integers." ),
-                resultLocation, geterr=FALSE )
+      if (browserResults) {
+        localJGRError("To fit data under the binomial distribution, the sample size variable must contain only non-negative integers.", resultLocation, geterr=FALSE)
+      } else {
+        stop("To fit data under the binomial distribution, the sample size variable must contain only non-negative integers.", call.=FALSE)
+      }
     }
+    
     if( any( ( yyna > nnna ) ) ){
-      localJGRError( paste( "To fit data under the binomial distribution,",
-                "the dependent variable must be between 0 and the",
-                "corresponding value for the sample size variable." ),
-                resultLocation, geterr=FALSE )
+      if (browserResults) {
+      	localJGRError("To fit data under the binomial distribution, the dependent variable must be between 0 and the corresponding value for the sample size variable.", resultLocation, geterr=FALSE)
+      } else {
+      	stop("To fit data under the binomial distribution, the dependent variable must be between 0 and the corresponding value for the sample size variable.", call.=FALSE)
+      }
     }
-    my.formula=paste("cbind(",vars[2],",",vars[1],"-",vars[2],")~",
-      paste(vars[3:length(vars)],collapse="+"),sep="")
+    
+    my.formula=paste("cbind(", vars[2], ",", vars[1], "-", vars[2], ")~", paste(vars[3:length(vars)], collapse="+"), sep="")
   } else {
     vars = strsplit(gsub(" ","",my.formula),"~")[[1]]
     yname = vars[1]
     vars = c(yname,strsplit(vars[2],"[+]")[[1]])
-    vars <- vars[-match("1", vars)]
+    vars = vars[-match("1", vars)]
     print(vars)
 
     if (length(vars) > 1) {
       nas = is.na(apply(my.subset[,vars],1,sum))
     }
     else {
-      nas <- is.na(my.subset[, vars])
+      nas = is.na(my.subset[, vars])
     }
     my.subset = my.subset[!nas,]
     if( my.family=="poisson" ){
-      if( any( ( my.subset[,yname] < 0 ) |
-              ( my.subset[,yname] != as.integer(my.subset[,yname]) ) ) ){
-        localJGRError( paste( "To fit data under the Poisson distribution,",
-                  "the dependent variable must contain only non-negative integers." ),
-                  resultLocation, geterr=FALSE )
+      if( any( ( my.subset[,yname] < 0 ) | ( my.subset[,yname] != as.integer(my.subset[,yname]) ) ) ) {
+		  if (browserResults) {
+			localJGRError("To fit data under the Poisson distribution, the dependent variable must contain only non-negative integers.", resultLocation, geterr=FALSE )
+		  } else {
+			stop("To fit data under the Poisson distribution, the dependent variable must contain only non-negative integers.", call.=FALSE)
+		  }
       }
     }
   }
@@ -109,12 +114,18 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   in.ref = my.subset[,site.name] %in% site.val
   nref = sum(in.ref)
   if( nref == 0 ){
-    localJGRError( "No reference data selected (0 rows after subsetting).",
-                  resultLocation )
+	  if (browserResults) {
+		localJGRError("No reference data selected (0 rows after subsetting).", resultLocation, geterr=FALSE )
+	  } else {
+		stop("No reference data selected (0 rows after subsetting).", call.=FALSE)
+	  }
   }
   if( nref == nrow(my.subset) ){
-    localJGRError( "No non-reference data selected (0 rows after subsetting).",
-                  resultLocation )
+	  if (browserResults) {
+		localJGRError("No non-reference data selected (0 rows after subsetting).", resultLocation, geterr=FALSE )
+	  } else {
+		stop("No non-reference data selected (0 rows after subsetting).", call.=FALSE)
+	  }
   }
   refdata = my.subset[in.ref,]
   nrefdata = my.subset[!in.ref,]
@@ -124,12 +135,15 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   }
 
   ## fit the model
-  if (iRmIntercept) my.formula <- paste(my.formula, "-1")
+  if (iRmIntercept) my.formula = paste(my.formula, "-1")
   my.formula = as.formula(my.formula)
-  my.fit <- try( glm(my.formula, data=refdata, family=my.family, x=TRUE ) )
+  my.fit = try( glm(my.formula, data=refdata, family=my.family, x=TRUE ) )
   if( inherits( my.fit, "try-error" ) ){
-    localJGRError( "Error attempting to fit the generalized linear model.",
-                  resultLocation )
+	  if (browserResults) {
+		localJGRError("Error attempting to fit the generalized linear model.", resultLocation, geterr=TRUE )
+	  } else {
+		stop("Error attempting to fit the generalized linear model.", call.=TRUE)
+	  }
   }
   
   ## predict on reference data
@@ -198,10 +212,11 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   }
   
   ## Plot observed versus predicted
-  if(browserResults)
-    png(file=file.path(resultLocation,
-         paste("Predicted vs Observed",".png",sep="") ), width=600,height=600)
-  else JavaGD(height=500,width=600)
+  if (browserResults) {
+    png(file=file.path(resultLocation, paste("Predicted vs Observed",".png",sep="")), width=600, height=600)
+  } else {
+  	  JavaGD(height=500,width=600)
+  }
   par(mar=c(4,4,2,1))
   if( my.family=="binomial" ){
     rng = range( c( fittedval, predfit$fit, yyna / nnna ), na.rm=TRUE )
@@ -210,7 +225,7 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   }
   buffer = diff(rng)*.15
   rng = rng + c(-1,1) * buffer
-  if( my.family=="binomial" ){
+  if (my.family=="binomial") {
     plot( fittedval, refdata[,yname] / nn.ref, xlim=rng, ylim=rng, col="black", pch=1,
          xlab="Predicted", ylab="Observed", main="Predicted versus Observed" )
   } else {
@@ -241,9 +256,12 @@ glm.pred.JGR <- function(my.data, sampsize.name=NULL, subset1.name,
   }
   if(browserResults) dev.off()
   
-  if(browserResults)
-    buildresultsXML(object=list(output),location=resultLocation,
-                   title="Regression Prediction Summary")
-  else print(output)
+  #output results table
+  if(browserResults) {
+    buildresultsXML(object=list(output), location=resultLocation, title="Regression Prediction Summary")
+  } else {
+  	print(output)
+  }
+  
   return(invisible())
 }

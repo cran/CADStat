@@ -1,4 +1,4 @@
-conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
+conditionalprob.JGR = function(my.data, x, y, weights=NULL,
                                 cond.val,cond.val.direction,prob.direction,
                                 alpha=0.05,R=100,
                                 subset1.name=NULL,subset1.val=NULL, 
@@ -14,9 +14,9 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
 ###   CProb: A Computational Tool for Conducting Conditional Probability Analysis. 
 ###   Journal of Environmental Quality
 ###  Testing the function
-###  embed<-runif(50,0,100)
-###  ept<-as.integer(30-(embed+rnorm(50,0,10))/4)
-###  test.data<-data.frame(cbind(ept,embed))
+###  embed=runif(50,0,100)
+###  ept=as.integer(30-(embed+rnorm(50,0,10))/4)
+###  test.data=data.frame(cbind(ept,embed))
 ###  conditionalprob.JGR(my.data=condprob.data,x="percfines",y="epttaxa",weights="Weights",cond.val=9,cond.val.direction="lt",prob.direction="gte",xlab="% embedeness")
 
 ### computes and plots conditional probabilities using the JGR dialog box gui input
@@ -38,11 +38,10 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
 ### cex.axis     magnification of the axes
 ### ...          optional paramters passed to "plot"
 
-  ## Get place to store results
-  resultLocation = genResultSpace()
+  #get place to store results
+  if (browserResults) resultLocation = genResultSpace()
 
-  ### computing conditional probabilitites
-
+  #data subsetting
   my.data = gisdt.subset(my.data, 
                          subset1.name=subset1.name, subset1.val=subset1.val, 
                          subset2.name=subset2.name, subset2.val=subset2.val,
@@ -51,7 +50,7 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
   n = nrow(my.data)
 
   prob.direction.logical = regexpr("g|>",prob.direction)>0
-  xunique <- sort(unique(my.data[,x]), decreasing = !prob.direction.logical)
+  xunique = sort(unique(my.data[,x]), decreasing = !prob.direction.logical)
   
   ord = order(my.data[,x],my.data[,y],decreasing=!prob.direction.logical)  
   my.data = my.data[ord,]
@@ -60,7 +59,7 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
     weights = "weights"
     my.data$weights = 1
   }
-  condprob <- condprob.fn(response=my.data[,y],wts=my.data[,weights],
+  condprob = condprob.fn(response=my.data[,y],wts=my.data[,weights],
                          cond.val=cond.val,cond.val.direction=cond.val.direction,
                           stressor=my.data[,x], xunique = xunique,
                           p.direct = prob.direction.logical)
@@ -71,17 +70,17 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
 #    condprod.boot =  matrix(NA,R, n)
     condprod.boot =  matrix(NA,R,length(xunique))
     for(r in 1:R){
-      isamp <- sample(1:nrow(my.data), replace = TRUE, prob=my.data[, weights])
-      my.data.resamp <- my.data[isamp, ]
+      isamp = sample(1:nrow(my.data), replace = TRUE, prob=my.data[, weights])
+      my.data.resamp = my.data[isamp, ]
 #      sampler  = resample(c(0,1),n,replace=TRUE)
 #      fudge    = as.numeric(any(my.data[,y]==0))
-#      response <- condprob.impute((my.data[,y]+fudge)*sampler,c(1:n),
+#      response = condprob.impute((my.data[,y]+fudge)*sampler,c(1:n),
 #                                  prob.direction.logical)
-#      condprod.boot[r,] <- condprob.fn(response=(response-fudge),
+#      condprod.boot[r,] = condprob.fn(response=(response-fudge),
 #                                       wts=my.data[,weights],ord=ord,
 #                                       cond.val=cond.val,
 #                                       cond.val.direction=cond.val.direction)
-      condprod.boot[r,] <- condprob.fn(response=my.data.resamp[, y],
+      condprod.boot[r,] = condprob.fn(response=my.data.resamp[, y],
                                        wts=my.data.resamp[,weights],
                                        cond.val=cond.val,
                                        cond.val.direction=cond.val.direction,
@@ -128,12 +127,12 @@ conditionalprob.JGR <- function(my.data, x, y, weights=NULL,
   return(invisible())
 }
 
-condprob.fn <- function(response,wts,cond.val,cond.val.direction,
+condprob.fn = function(response,wts,cond.val,cond.val.direction,
                         stressor, xunique, p.direct){
   n = length(response)
-  nunique <- length(xunique)
-  Num   <- numeric(nunique)
-  Denom <- numeric(nunique)
+  nunique = length(xunique)
+  Num   = numeric(nunique)
+  Denom = numeric(nunique)
   if(regexpr("l|<",cond.val.direction)>0) {
     w.expr = expression(wts[incvec][response[incvec] < cond.val])
   } else {
@@ -142,16 +141,16 @@ condprob.fn <- function(response,wts,cond.val,cond.val.direction,
   if(is.null(wts)) wts = rep(1,n)
   if (p.direct) {
     for (i in 1:nunique) {
-      incvec <- stressor >= xunique[i]
-      Num[i] <- sum(eval(w.expr))
-      Denom[i] <- sum(wts[incvec])
+      incvec = stressor >= xunique[i]
+      Num[i] = sum(eval(w.expr))
+      Denom[i] = sum(wts[incvec])
     }
   }
   else {
     for (i in 1:nunique) {
-      incvec <- stressor <= xunique[i]
-      Num[i] <- sum(eval(w.expr))
-      Denom[i] <- sum(wts[incvec])
+      incvec = stressor <= xunique[i]
+      Num[i] = sum(eval(w.expr))
+      Denom[i] = sum(wts[incvec])
     }
   }
   Num/Denom
