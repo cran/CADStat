@@ -3,6 +3,7 @@ scatterplot2 = function(x, y, xName="x", yName="y", main="", xlab="", ylab="", p
                           add.lm=FALSE, add.loess=FALSE, add.conf=FALSE,
   add.pred=FALSE, conf=.95)
 {
+  JavaGD(name="scatterplot", width=500, height=400, ps=14)
 
   if( !add.lm & !add.loess ){
     

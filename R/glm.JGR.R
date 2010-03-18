@@ -81,7 +81,7 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
   
   #check poisson inputs
   if (my.family=="poisson") {
-    vars = strsplit(my.formula, "~")[[1]]
+    vars = stripwhite(strsplit(my.formula, "~")[[1]])
     yname = vars[1]
     tmpy = my.subset[,yname]
     tmpy = tmpy[!is.na(tmpy)]
@@ -162,10 +162,10 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
   	if (browserResults) {
       png(file=file.path(resultLocation,"Influence.png"),width=600,height=600)
     } else {
-      JavaGD(name=fig.name[i],width=500, height=400, ps=14)
+      JavaGD(name="Influence plot",width=500, height=400, ps=14)
     }
     par(mar=c(4,4,2,1))
-    influencePlot(my.fit, main="Influence Plot", labels=FALSE)
+    influencePlot(my.fit, main="Influence Plot", labels=FALSE, identify = "auto")
     if (browserResults) dev.off()
   }
 

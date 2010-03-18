@@ -65,7 +65,9 @@
 </p>
 <ol>
 <li><p>Principle Components Analysis</p>
-<ul><li><b>Scree Plot</b>: Output a scree plot of eigenvalues.</li>
+<ul><li><b>Scree Plot</b>: Output a scree plot of eigenvalues, showing
+the variance associated with each component.  The sum of these
+variances is equivalent to the total variance in the selected variables.</li>
 <li><b>Loading/Score Plot</b>: Output a biplot of the first two
 principle components.</li>
 <li><b>Rotated Variables</b>: Return the rotated variables, appended to
@@ -75,8 +77,7 @@ the original data frame.
 <ul><li><b>Varimax/Promax</b>: Select the rotation you with to apply
 to your factors</li>
 <li><b>None/Thompson/Bartlett</b>: Select the type of scores that you
-would like returned.  See help pages on <a font face =
-"courier">factanal</font> for more information.  Scores will be
+would like returned.  See R-help pages on <code>factanal</code> for more information.  Scores will be
 returned appended to the original data frame.
 </li>
 </ul>

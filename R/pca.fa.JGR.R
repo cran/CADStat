@@ -70,14 +70,14 @@ pca.fa.JGR = function(my.data, numFactors=0, variables=NULL,
 
 		#scree plot
 		if (iScreePlot) {
-			JavaGD(name="ScreePlot", width=800, height=600, ps=14)
+			JavaGD(name="ScreePlot", width=600, height=400, ps=14)
 			#par(mar=c(4,4,2,1))
 			plot(pca, main="Scree Plot")
 		}
 
 		#loading plot and score plot
 		if (iLoadingPlot) {
-			JavaGD(name="LoadingPlot", width=800, height=600, ps=14)
+			JavaGD(name="LoadingPlot", width=600, height=600, ps=14)
 			#par(mar=c(4,4,2,1))
 			biplot(pca, main="Loading and Score Plots")
 		}

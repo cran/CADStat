@@ -41,14 +41,14 @@ bxplot.JGR <- function(my.data, result, group.name=NULL, group.val=NULL,
     if(all(my.data[,result]>0)){
       if (plot.type =="both") {
         tmp = my.data
-        tmp$scale = "Log"
-        tmp[,result] = log(my.data[,result])
+        tmp$scale = "Log10"
+        tmp[,result] = log10(my.data[,result])
         my.data = rbind(my.data,tmp)
         rm(tmp)
       }
       else {
-        my.data$scale = "Log"
-        my.data[,result] = log(my.data[,result])
+        my.data$scale = "Log10"
+        my.data[,result] = log10(my.data[,result])
       }
     }
     else {
