@@ -44,7 +44,8 @@ cor.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val
     #individual subsets
     
     #output the correlation matrix
-    cor.results = as.data.frame(cor(my.subset[,my.vars], method=iMethod))
+    cor.results = as.data.frame(cor(my.subset[,my.vars], method=iMethod,
+      use = "pair"))
     print("Correlation Matrix")
     print(cor.results)
     
@@ -52,36 +53,41 @@ cor.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val
     if (iCI) {
       #check iMethod and conf.level
       if (is.na(iMethod)) iMethod = "pearson"
+      if (iMethod != "pearson") {
+        cat("Confidence intervals can only be computed for Pearson correlations.\n")
+      }
+      else {
   
-      if (!is.numeric(conf.level) | is.nan(conf.level)) {
-        conf.level = 0.95
-      } else if (conf.level <= 0 | conf.level >= 1) {
-        conf.level = 0.95
-      } 
-  
-      #create ci result matrix
-      my.results = data.frame(matrix(NA, nrow=n.vars*(n.vars-1)/2, ncol=4))
-      names(my.results) = c(" ","coefficient", "lower bound", "upper bound")
-      
-      count = 1
-      
-      for (i in 1:(n.vars-1)){
-        for (j in (i+1):n.vars){
+        if (!is.numeric(conf.level) | is.nan(conf.level)) {
+          conf.level = 0.95
+        } else if (conf.level <= 0 | conf.level >= 1) {
+          conf.level = 0.95
+        } 
+        
+                                        #create ci result matrix
+        my.results = data.frame(matrix(NA, nrow=n.vars*(n.vars-1)/2, ncol=4))
+        names(my.results) = c(" ","coefficient", "lower bound", "upper bound")
+        
+        count = 1
+        
+        for (i in 1:(n.vars-1)){
+          for (j in (i+1):n.vars){
           #row names
-          my.results[count,1] = paste(my.vars[i],my.vars[j],sep="-")
+            my.results[count,1] = paste(my.vars[i],my.vars[j],sep="-")
                     
           #confidence interval
-          my.ci = cor.test(my.subset[,my.vars[i]], my.subset[,my.vars[j]], method=iMethod, conf.level=conf.level)
-          if (!is.null(my.ci)) {
-            my.results[count,2] = my.ci$estimate
-            my.results[count,3] = my.ci$conf.int[1]
-            my.results[count,4] = my.ci$conf.int[2]
+            my.ci = cor.test(my.subset[,my.vars[i]], my.subset[,my.vars[j]], method=iMethod, conf.level=conf.level)
+            if (!is.null(my.ci)) {
+              my.results[count,2] = my.ci$estimate
+              my.results[count,3] = my.ci$conf.int[1]
+              my.results[count,4] = my.ci$conf.int[2]
+            }
+            count = count + 1
           }
-          count = count + 1
         }
+        print("Confidence Interval Table")
+        print(my.results)
       }
-      print("Confidence Interval Table")
-      print(my.results)
     }
     
     ##output scatterplot matrix if necessary

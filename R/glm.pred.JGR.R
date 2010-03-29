@@ -85,13 +85,16 @@ glm.pred.JGR = function(my.data, sampsize.name=NULL, subset1.name,
     }
     
     my.formula=paste("cbind(", vars[2], ",", vars[1], "-", vars[2], ")~", paste(vars[3:length(vars)], collapse="+"), sep="")
-  } else {
-    vars = strsplit(gsub(" ","",my.formula),"~")[[1]]
+  }
+  else {
+    vars = stripwhite(strsplit(my.formula,"~")[[1]])
     yname = vars[1]
-    vars = c(yname,strsplit(vars[2],"[+]")[[1]])
-    vars = vars[-match("1", vars)]
-    print(vars)
-
+    vars = c(yname,stripwhite(strsplit(vars[2],"[+]")[[1]]))
+    imatch <- match("1", vars)
+    if (! is.na(imatch)) {
+      vars = vars[-match("1", vars)]
+    }
+    
     if (length(vars) > 1) {
       nas = is.na(apply(my.subset[,vars],1,sum))
     }
