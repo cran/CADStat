@@ -1,3 +1,4 @@
+#' @export
 cor.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val,
           my.vars, iMethod="pearson", iCI=FALSE, conf.level=0.95, iScatterplot=FALSE, browserResults=FALSE)
 {
@@ -93,7 +94,7 @@ cor.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val
     ##output scatterplot matrix if necessary
     if (iScatterplot) {
       if (browserResults) {
-        png(file=file.path(resultLocation,"Scatterplot matrix.png"),width=600,height=600)
+        png(filename=file.path(resultLocation,"Scatterplot matrix.png"),width=600,height=600)
       } else {
         JavaGD(height=500,width=600)
       }

@@ -1,11 +1,11 @@
-\name{envdata.OR}
-\alias{envdata.OR}
+\name{envdata.or}
+\alias{envdata.or}
 \docType{data}
 \title{Environmental data from western OR}
 \description{
   Environmental data for stream sampled in western Oregon.
 }
-\usage{data(envdata.OR)}
+\usage{data(envdata.or)}
 \format{
   A data frame with 245 observations on the following 13 variables.
   \describe{

@@ -1,5 +1,7 @@
-bioinfer.JGR <-
-  function (bio.data = NULL, subset1.name = NULL, subset1.val = NULL, 
+#taxa (taxon): One or more populations grouped by taxonomists
+#Itis: Integrated taxonomic information system
+#' @export
+bioinfer.JGR <- function (bio.data = NULL, subset1.name = NULL, subset1.val = NULL, 
     subset2.name = NULL, subset2.val = NULL, siteID = NULL, taxonName = NULL, 
     taxonCount = NULL, coefBioInferData = FALSE, coefBioInferDataName = NULL, 
     coefRegData = FALSE, coefRegDataName = NULL, saveResults = TRUE, 
@@ -27,7 +29,8 @@ bioinfer.JGR <-
                  subset2.val = subset2.val)
     }
     if (coefBioInferData) {
-        data(list = coefBioInferDataName)
+        # envir = environment() and lazyloading in Description file were added good practice(flags).
+        data(list = coefBioInferDataName, envir = environment())
         coefs = get(coefBioInferDataName)
         globenv[["coefs"]] = coefs
     }
@@ -35,34 +38,45 @@ bioinfer.JGR <-
         coefs = get(coefRegDataName)
         globenv[["coefs"]] = coefs
     }
-    if (is.null(dupe.sel)) {
-        if (is.null(tname.new)) {
+
+
+    if (is.null(dupe.sel)) 
+    {
+        if (is.null(tname.new)) 
+        {
             globenv[["tlevs"]] = load.itis(globenv)
+            #tname is the name matrix consisting of taxa
             tname = sort(unique(as.character(globenv[["bcnt"]][[taxonName]])))
             df.parse = parse.taxon.name(tname)
-            globenv[["parse.list"]] = get.valid.names(df.parse, 
-                globenv)
-            if (nrow(globenv[["parse.list"]][["TRUE"]]) > 0) {
-                globenv[["parse.list"]] = resolve.mult(globenv[["parse.list"]], 
-                  globenv)
-                if (nrow(globenv[["parse.list"]][["TRUE"]]) > 
-                  0) {
-                  tmiss = unique(globenv[["parse.list"]][["TRUE"]][, 
-                    2])
+
+            # get.valid.names splits matrix into list of valid taxa and list of invalid names
+            globenv[["parse.list"]] = get.valid.names(df.parse, globenv)
+            #print(globenv[["parse.list"]])
+            if (nrow(globenv[["parse.list"]][["TRUE"]]) > 0) 
+            {
+                
+                # resolve.mult: if taxon displayed in mult lists, only show in 1st.
+                globenv[["parse.list"]] = resolve.mult(globenv[["parse.list"]], globenv) #problem area!
+                  
+                if (nrow(globenv[["parse.list"]][["TRUE"]]) > 0) 
+                {
+                  tmiss = unique(globenv[["parse.list"]][["TRUE"]][, 2])
                   tmiss = tmiss[nchar(tmiss) > 0]
                   b = .jnew("org/neptuneinc/cadstat/plots/BiologicalInferencesTaxaNameUnrecog")
-                  .jcall(b, "Ljavax/swing/JFrame;", "getMyGUI", 
-                    length(tmiss), tmiss)
+                  .jcall(b, "Ljavax/swing/JFrame;", "getMyGUI", length(tmiss), tmiss)
                   return(invisible())
                 }
             }
         }
-        else {
-            globenv[["parse.list"]] = incorp.correct(tname.new, 
-                globenv[["parse.list"]])
+        else 
+        {
+            globenv[["parse.list"]] = incorp.correct(tname.new,globenv[["parse.list"]])
         }
     }
+
+
     if (is.null(dupe.sel)) {
+
         globenv[["fulltab"]] = make.fulltab1(globenv[["parse.list"]][["FALSE"]], 
             globenv)
         globenv[["dupe.list"]] = locate.dupes(globenv[["fulltab"]])
@@ -103,6 +117,8 @@ bioinfer.JGR <-
             globenv[["dupe.list"]], dupe.sel)
       }
     }
+
+
     finaltab = make.species(globenv[["parse.list"]][["FALSE"]], 
         globenv[["fulltab"]])
     output.tax.table(finaltab, globenv[["tlevs"]])
@@ -119,9 +135,18 @@ bioinfer.JGR <-
         bcnt.otu = get.otu(bcnt.tax, globenv[["coefs"]][["TAXON"]])
         result = trait.stat(bcnt.otu, globenv[["coefs"]])
     }
-    assign(globenv[["resultName"]], result, envir = .GlobalEnv)
+
+
+    #Fix to set the environment and pass it in. Found in datamerge/bioinfer/glm/pca.fa
+    pos <- 1
+    envir = as.environment(pos)
+
+    assign(globenv[["resultName"]], result, envir = envir)
     cat("Results are saved in ", globenv[["resultName"]], 
         ".\n", sep = "")
     rm(globenv)
     return(invisible())
   }
+
+
+# https://cran.r-project.org/web/packages/bio.infer/bio.infer.pdf

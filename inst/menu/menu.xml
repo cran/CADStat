@@ -98,7 +98,7 @@
     </menuitem>
     <menuitem>
       <name>Boxplot</name>
-      <command>CADStat.help(doc='boxplot.JGR.html')</command>
+      <command>CADStat.help(doc='bxplot.JGR.html')</command>
     </menuitem>
     <menuitem>
       <name>Scatterplot</name>

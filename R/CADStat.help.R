@@ -1,3 +1,4 @@
+#' @export
 CADStat.help <- function(topic=NULL,doc="CADStat.JGR.html",doc.path=file.path("CADStat","doc"),home=.Library)
 {
   ## CADStat.help will open an xml, html, xhtml, sxw, or pdf in a browser

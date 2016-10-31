@@ -12,38 +12,45 @@ localJGRError = function( errMes, location, geterr=TRUE )
 
 buildresultsXML <- function(object=NULL,title=" ",text=NULL,location=stop('Save location required'),...)
 {
-  require(XML)
-  #require(RSvgDevice)
-  result.nodes <- xmlNode("article")
-  result.nodes <- append.xmlNode(result.nodes,xmlNode("title",title))
-  if(!is.null(text))
-    result.nodes <- append.xmlNode(result.nodes,xmlNode("para",text))
-  if(is.list(object)){
-    for(i in 1:length(object)){
-      if(!is.null(object[[i]])){
-        result.nodes <- append.xmlNode(result.nodes,docbook(object[[i]],...))
+  # 'require' outdated, new standard uses requireNamespace()
+  #require(XML)
+  # Better practice remove XML from import and add sparingly XML:: within this function
+  # Need to come back and refine <--------------------------- ultimately remove XML from full import
+  #if (requireNamespace("XML", quietly = TRUE)) {
+    #XML::
+    #require(RSvgDevice)
+    result.nodes <- xmlNode("article")
+    result.nodes <- append.xmlNode(result.nodes,xmlNode("title",title))
+    if(!is.null(text))
+      result.nodes <- append.xmlNode(result.nodes,xmlNode("para",text))
+    if(is.list(object)){
+      for(i in 1:length(object)){
+        if(!is.null(object[[i]])){
+          result.nodes <- append.xmlNode(result.nodes,docbook(object[[i]],...))
+        }
       }
     }
-  }
-  svg.file <- list.files(location,pattern=".svg")
-  if(length(svg.file)>0){
-    for(i in 1:length(svg.file)){
-      svg.nodes <- xmlRoot(xmlTreeParse(file=svg.file[i]))
-      result.nodes <- append.xmlNode(result.nodes,svg.nodes)
+    svg.file <- list.files(location,pattern=".svg")
+    if(length(svg.file)>0){
+      for(i in 1:length(svg.file)){
+        svg.nodes <- xmlRoot(xmlTreeParse(file=svg.file[i]))
+        result.nodes <- append.xmlNode(result.nodes,svg.nodes)
+      }
     }
-  }
-  png.file <- list.files(location,pattern=".png")
-  if(length(png.file)>0){
-    for(i in 1:length(png.file)){
-      png.nodes <- xmlNode("code",attrs=c(language="text/html"),xmlNode("img",attrs=c(src=png.file[i])))
-      if(is.na(charmatch("CADStat",png.file[i])))
-        png.nodes <- append.xmlNode(png.nodes,xmlNode("h2",paste("Figure ",i,".  ",gsub(".png","",png.file[i]),".",sep="")))
-      result.nodes <- append.xmlNode(result.nodes,png.nodes)
+    png.file <- list.files(location,pattern=".png")
+    if(length(png.file)>0){
+      for(i in 1:length(png.file)){
+        png.nodes <- xmlNode("code",attrs=c(language="text/html"),xmlNode("img",attrs=c(src=png.file[i])))
+        if(is.na(charmatch("CADStat",png.file[i])))
+          png.nodes <- append.xmlNode(png.nodes,xmlNode("h2",paste("Figure ",i,".  ",gsub(".png","",png.file[i]),".",sep="")))
+        result.nodes <- append.xmlNode(result.nodes,png.nodes)
+      }
     }
-  }
-  saveXML(result.nodes,
-          file=file.path(location,"results.xml"),
-          prefix = '<?xml version="1.0"?>\n<?xml-stylesheet type="text/xsl" href="../../../doc/stylesheets/caddis.xsl"?>\n')
+    saveXML(result.nodes,
+            file=file.path(location,"results.xml"),
+            prefix = '<?xml version="1.0"?>\n<?xml-stylesheet type="text/xsl" href="../../../doc/stylesheets/caddis.xsl"?>\n')
+  #}
+
 }
 
 

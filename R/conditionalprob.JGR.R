@@ -1,3 +1,4 @@
+#' @export
 conditionalprob.JGR = function(my.data, x, y, weights=NULL,
                                 cond.val,cond.val.direction,prob.direction,
                                 alpha=0.05,R=100,
@@ -91,7 +92,11 @@ conditionalprob.JGR = function(my.data, x, y, weights=NULL,
   }
 
   if(browserResults){
-    png(file=file.path(resultLocation,paste(main,".png",sep="")),width=600,height=600)
+    # DELETE THESE 3 CATS WHEN DONE TESTING.
+    #cat(browserResults,"\n")
+    #cat(resultLocation,"\n")
+    #cat(file.path(resultLocation,paste(main,".png",sep="")),"\n")    
+    png(filename=file.path(resultLocation,paste(main,".png",sep="")),width=600,height=600)
   } else {
     JavaGD(name="Conditional Probability Plot", width=600, height=500, ps=14)
     #par(mfrow=c(1,3))

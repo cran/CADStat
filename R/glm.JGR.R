@@ -1,3 +1,4 @@
+#' @export
 glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=NULL, subset2.name=NULL, subset2.val=NULL,
                     my.formula, my.family="gaussian", my.contrast=NULL, iRmIntercept=FALSE, iCI=TRUE, conf.level=0.95,
                     iDiag.1=FALSE, iDiag.2=FALSE, iDiag.3=FALSE, iDiag.4=FALSE, iInfluence=FALSE, browserResults=FALSE, saveLMName="" )
@@ -110,7 +111,13 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
     }
   }
   
-  if (saveLMName != "" ) assign( saveLMName, my.fit, pos=1)
+
+  #Fix to set the environment and pass it in. Found in datamerge/bioinfer/glm/pca.fa
+  pos <- 1
+  envir = as.environment(pos)
+
+
+  if (saveLMName != "" ) assign( saveLMName, my.fit, envir = envir)
   
   #output summary table
   print(summary(my.fit))
@@ -148,7 +155,7 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
   {
     fig.name = c("Residuals vs Fitted", "Normal Q-Q", "Scale-Location", "Cooks distance", "Residuals vs Leverage", "Cooks distance vs Leverage")
     if (browserResults) {
-      png(file=file.path(resultLocation,paste(fig.name[i],".png",sep="")),width=600,height=600)
+      png(filename=file.path(resultLocation,paste(fig.name[i],".png",sep="")),width=600,height=600)
     } else {
       JavaGD(name=fig.name[i], width=500, height=400, ps=14)
     }
@@ -160,12 +167,14 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
   #produce influence plot if necessary (influencePlot requires car)
   if (iInfluence) {
   	if (browserResults) {
-      png(file=file.path(resultLocation,"Influence.png"),width=600,height=600)
+      png(filename=file.path(resultLocation,"Influence.png"),width=600,height=600)
     } else {
       JavaGD(name="Influence plot",width=500, height=400, ps=14)
     }
     par(mar=c(4,4,2,1))
-    influencePlot(my.fit, main="Influence Plot", labels=FALSE, identify = "auto")
+    influencePlot(my.fit, main="Influence Plot", labels=FALSE)
+    #identify triggers warnings... auto by default possibly. Look Into using ellipses
+    #influencePlot(my.fit, main="Influence Plot", labels=FALSE, identify = "auto") 
     if (browserResults) dev.off()
   }
 
@@ -173,7 +182,7 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
   ttl = paste(ifelse(my.family=="gaussian", "Linear", ifelse(my.family=="poisson", "Poisson", "Logistic") ), "Regression Summary")
   if (browserResults) buildresultsXML(object=list(my.fit, my.fit.ci), location=resultLocation, title=ttl)
 
-  assign("my_glm.fit", my.fit, pos = 1)
+  assign("my_glm.fit", my.fit, envir = envir)
 
   return(invisible())
 }

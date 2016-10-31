@@ -29,9 +29,7 @@ be changed to vertical with \bold{Rotate X Axis Labels}.
 
 }
 
-\seealso{
-	\code{\link{boxplot}}
-}
+
 
 \keyword{hplot} 
 

@@ -38,7 +38,9 @@ datamerge.JGR = function( x, y, by11="None", by12="None", by13="None",
   }
   
   if( rName=="" ){ rName="mergedData" }
-  assign( rName, mergedData, pos=1 )
+  pos <- 1
+  envir = as.environment(pos)
+  assign( rName, mergedData, envir = envir)
 
   if( writeout ){
     tmp = try( write.table( mergedData, outName, sep="\t" ) )

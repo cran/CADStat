@@ -1,3 +1,4 @@
+#' @export
 glm.pred.JGR = function(my.data, sampsize.name=NULL, subset1.name,
                          subset1.val, subset2.name, subset2.val,
                          site.name, site.val,
@@ -216,7 +217,7 @@ glm.pred.JGR = function(my.data, sampsize.name=NULL, subset1.name,
   
   ## Plot observed versus predicted
   if (browserResults) {
-    png(file=file.path(resultLocation, paste("Predicted vs Observed",".png",sep="")), width=600, height=600)
+    png(filename=file.path(resultLocation, paste("Predicted vs Observed",".png",sep="")), width=600, height=600)
   } else {
   	  JavaGD(height=500,width=600)
   }

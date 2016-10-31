@@ -1,3 +1,4 @@
+#' @export
 rq.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val,
           my.formula, my.tau=0.5, iCI=FALSE, conf.level=0.95, iScatterplot=FALSE, iCIplot=FALSE,
           dep.var, indep.var, browserResults=FALSE)
@@ -92,7 +93,7 @@ rq.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val,
   #create scatterplot with overlays if desired
   if (iScatterplot) {
     if (browserResults) {
-      png(file=file.path(resultLocation,"Quantile Regression Scatterplot.png"), width=600, height=600)    
+      png(filename=file.path(resultLocation,"Quantile Regression Scatterplot.png"), width=600, height=600)    
     } else {
 	  JavaGD(width=500, height=400, ps=14)
     }
@@ -103,7 +104,7 @@ rq.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val,
   #create coefficient confidence band plot if desired
   if (iCIplot & length(my.tau)>1) {
     if (browserResults) {
-	  png(file=file.path(resultLocation, "Quantile Regression Confidence Bands.png"), width=600,height=600)
+	  png(filename=file.path(resultLocation, "Quantile Regression Confidence Bands.png"), width=600,height=600)
     } else {
 	  JavaGD(width=500, height=400, ps=14)
     }

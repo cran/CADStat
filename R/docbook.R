@@ -1,11 +1,26 @@
+# Generic function starts method dispatch
+# Add all S3 methods to namespace
+
+# A description of docbook
+# @title docbook: General function for preparing output
+# @param x numeric number
+# @examples
+# a <- 1
+# class(a) <- "try"
+# docbook(a)
+#' @export
+
+
 docbook <- function (x,...) {
   UseMethod("docbook")
 }
 
+#' @export
 docbook.try <- function(x,...){
   sectNode <- xmlNode("sect1")
   append.xmlNode(sectNode,xmlNode("para","error"))}
 
+#' @export
 docbook.default <- function (x,numTable=NULL,...) 
 {
   sectNode <- xmlNode("sect1")
@@ -23,6 +38,7 @@ docbook.default <- function (x,numTable=NULL,...)
                  )
 }
 
+#' @export
 docbook.data.frame <- function (x,title=NULL,file=NULL,rowNames=TRUE,digits=4,numTable=NULL,...){
   tableNode <- xmlNode("table",attrs=c("role"="results"))
 ###  title <- attributes(x)$title
@@ -83,6 +99,7 @@ docbook.data.frame <- function (x,title=NULL,file=NULL,rowNames=TRUE,digits=4,nu
   }
 }
 
+#' @export
 docbook.htest <- function (x,file=NULL,digits=4,numTable=NULL,...){
   method <- x$method
   x <- unlist(x)
@@ -116,6 +133,7 @@ docbook.htest <- function (x,file=NULL,digits=4,numTable=NULL,...){
   }
 }
 
+#' @export
 docbook.glm = function(x,...){
   if(x$family$family=="gaussian"){
     return(docbook.lm.summary(summary.lm(x),...))
@@ -124,7 +142,7 @@ docbook.glm = function(x,...){
   }
 }
 
-
+#' @export
 docbook.glm.summary = function(x,file=NULL,...){
   sectNode = xmlNode("sect1")
   coefs = data.frame(coef(x),check.names=FALSE)
@@ -148,10 +166,12 @@ docbook.glm.summary = function(x,file=NULL,...){
   sectNode = append.xmlNode(sectNode,chistNode)
 }
 
+#' @export
 docbook.lm <- function (x,...){
   return(docbook.lm.summary(summary(x),...))
 }
 
+#' @export
 docbook.lm.summary <- function (x,file=NULL,...){
   sectNode <- xmlNode("sect1")
 #  callNode <- xmlNode("para",paste("Call: ",print(x$call),sep=""))
@@ -194,6 +214,7 @@ docbook.lm.summary <- function (x,file=NULL,...){
   }
 }
 
+#' @export
 docbook.hmtestp <- function (x,file=NULL,...){
   if (x$asympt)
     method <- paste("Asymptotic simultaneous tests:", x$ctype)

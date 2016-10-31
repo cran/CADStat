@@ -1,11 +1,11 @@
-\name{refids.OR}
-\alias{refids.OR}
+\name{refids.or}
+\alias{refids.or}
 \docType{data}
 \title{Reference site identifications western OR}
 \description{
   Sample identifiers for reference site in western Oregon
 }
-\usage{data(envdata.OR)}
+\usage{data(envdata.or)}
 \format{
   A data frame with 245 observations on the following 13 variables.
   \describe{

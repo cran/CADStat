@@ -1,3 +1,4 @@
+#' @export
 pca.fa.JGR = function(my.data, numFactors=0, variables=NULL,
 						subset1.name=NULL, subset1.val=NULL, subset2.name=NULL, subset2.val=NULL,
 						iScreePlot=FALSE, iLoadingPlot=FALSE, center=TRUE, scale=TRUE, retx=TRUE,
@@ -48,6 +49,10 @@ pca.fa.JGR = function(my.data, numFactors=0, variables=NULL,
 	#create formula
 	myFormula = as.formula(paste("~", paste(variables, collapse="+")))
 
+	#Fix to set the environment and pass it in. Found in datamerge/bioinfer/glm/pca.fa
+	pos <- 1
+	envir = as.environment(pos)
+
 	#perform the analysis
 	if (numFactors == 0) {
 		#principal components analysis
@@ -64,7 +69,7 @@ pca.fa.JGR = function(my.data, numFactors=0, variables=NULL,
 		#rotated variables
 		if (retx) {
                     PCA.scores <- cbind(my.subset, pca$x)
-                    assign("PCA.scores", PCA.scores, pos = 1)
+                    assign("PCA.scores", PCA.scores, envir = envir)
                     cat("\nRotated variables appended to original data set and saved in PCA.scores.\n")
 		}
 
@@ -92,7 +97,7 @@ pca.fa.JGR = function(my.data, numFactors=0, variables=NULL,
 		#scores from the factor analysis
 		if (scores!="none") {
                        FA.scores <- cbind(my.subset, fa$scores)
-                       assign("FA.scores", FA.scores, pos = 1)
+                       assign("FA.scores", FA.scores, envir = envir)
                        cat("\nFactor Analysis scores appended to original data frame and saved in FA.scores\n")
 			#print(fa$scores)
 		}

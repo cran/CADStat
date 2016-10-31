@@ -1,4 +1,5 @@
 ##JGR scatterplot function
+#' @export
 scatterplot2.JGR = function(my.data, subset1.name, subset1.val, subset2.name, subset2.val, x, y, main="", xlab="", ylab="",
                              pch=1, col="black", cex.main=1, cex.lab=1, cex=1, cex.axis=1, add.lm=FALSE, add.loess=FALSE, add.conf=FALSE, add.pred=FALSE,
                              conf=.95)

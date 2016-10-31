@@ -1,3 +1,4 @@
+#' @export
 rpart.JGR = function(formula, my.data, subset1.name=NULL, subset1.val=NULL, 
                       subset2.name=NULL, subset2.val=NULL,
                       minsplit=20, minbucket=round(minsplit/3),
@@ -17,7 +18,7 @@ rpart.JGR = function(formula, my.data, subset1.name=NULL, subset1.val=NULL,
   #plot of the fit
   if (browserResults) {
     #CairoSVG(file=file.path(resultLocation,"TreeRegression.svg"))
-    png(file=file.path(resultLocation,"Tree Regression.png"),width=650,height=800)
+    png(filename=file.path(resultLocation,"Tree Regression.png"),width=650,height=800)
   } else {
     JavaGD(height=650,width=800)
   }
@@ -37,6 +38,7 @@ rpart.JGR = function(formula, my.data, subset1.name=NULL, subset1.val=NULL,
   return(invisible())
 }
 
+#' @export
 text.rpart.JGR = function(x,y,label,...){
    if(length(grep(">|<",label))>0){
      label = gsub("< "," < ",label)
