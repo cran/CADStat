@@ -15,6 +15,7 @@ import org.neptuneinc.cadstat.utils.RUtils;
 import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
+import CADStat.java.plots.SubsetFormatter;
 
 /**
  *
@@ -159,7 +160,7 @@ public class FactorAnalysis extends DataPlotDialog
     // Factor Analysis
     else
     {
-      double degreesFreedom = 0.5 * ((numVars - numFactors) ^ 2 - numVars - numFactors);
+      double degreesFreedom = 0.5 * ((numVars - numFactors) * (numVars - numFactors) - numVars - numFactors);
 
       status = (numVars >= 3) && (degreesFreedom >= 0);
     }
@@ -550,9 +551,9 @@ private void numFactorsSpinnerStateChanged(javax.swing.event.ChangeEvent evt)//G
       + ", numFactors=" + numFactorsSpinner.getValue()
       + ", variables=" + (varList.isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(varList.getSelectedValues(), ",", "'") + ")")
       + ", subset1.name=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane1().getSelectedFactor() + "'")
-      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane1().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane1().getSelectedFactorValues()))
       + ", subset2.name=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane2().getSelectedFactor() + "'")
-      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane2().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane2().getSelectedFactorValues()))
       + ", iScreePlot=" + GUIUtils.getBooleanValueR(screePlotCheckBox)
       + ", iLoadingPlot=" + GUIUtils.getBooleanValueR(loadingScorePlotCheckBox)
       + ", retx=" + GUIUtils.getBooleanValueR(rotateVarsCheckBox)

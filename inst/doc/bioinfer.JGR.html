@@ -3,11 +3,11 @@
 <html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
   <!-- This file was converted to xhtml by Writer2xhtml ver. 0.5. See http://www.hj-gym.dk/~hj/writer2latex for more info. -->
   <head profile="http://dublincore.org/documents/dcq-html/">
-    <title>Predicting environmental conditions from biological observations</title>
+    <title>Predicting Environmental Conditions from Biological Observations (PECBO)</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
     <link href="http://purl.org/dc/elements/1.1/" rel="schema.DC" />
-    <meta content="Predicting environmental conditions from biological observations" name="DC.title" />
+    <meta content="Predicting Environmental Conditions from Biological Observations" name="DC.title" />
     <meta content="" name="DC.subject" />
     <meta content="" name="DC.description" />
     <meta content="" name="DC.creator" />
@@ -34,7 +34,7 @@
           </p>
           <p class="Contents1">
             <span class="SectionNumber"></span>
-            <a href="#toc3"></a>
+            <a href="#toc3">Explanation of PECBO Output</a>
           </p>
           <p class="Contents1">
             <span class="SectionNumber"></span>
@@ -62,25 +62,33 @@
         counted at a consistent taxonomic level.  Third, observations
         are matched with existing taxon-environment relationships and
         an estimate of environmental conditions computed.</p> 
-        <p>The module is initiated by choosing A<i>nalysis Tools -&gt; Predicting env. conditions from biological observations</i> from the menus.  A dialog box should appear as follows:</p>
+        <p>The module is initiated by choosing A<i>nalysis Tools -&gt; Predicting Environmental Conditions from Biological Observations</i> from the menus.  A dialog box should appear as follows:</p>
         <p></p>
         <div style="text-align:center">
           <img alt="graphics1" class="frameGraphics"
-        id="graphics17Cgraphics" src="bioinfer.JGR-img1.png"
+        id="graphics17Cgraphics" src="../img/bioinfer.JGR-img1.png"
         style="width: 517px;height:4449px" />
         </div>
 
         <h1 id="toc1"><span class="SectionNumber"></span>Input files </h1>
-        <p><b>Active Dataset</b>:  This file is a data frame that
+		<dt>
+        <dl><b>Active Dataset:</b></dl>
+		<dd>  This file is a data frame that
         contains observations of benthic macroinvertebrate.  The file
         can be selected from the working directory or loaded using the
-        <em>Browse</em> option.  At least three columns are required
-        in this data frame: (1) a unique sample identifier (specified
-        by selecting the appropriate field in <b>Site ID:</b>, (2)
-        taxon names (specified in <b>Taxon Name</b>, and (3) the
-        number of individuals of a particular taxon within a
-        particular sample (<b>Taxon Count</b>).</p>
-	<p><b>Coefficient data</b>: Select a coefficient file that
+        <em>Browse</em> option. An example file, <font face="courier">bcnt.OR.rda</font>,
+		can be found in the <font face="courier">data</font> subfolder of the package
+		<font face = "courier">bio.infer</font>. At least three columns are required
+        in this data frame:
+		<ul>
+		<li><b>Site ID:</b> A unique sample identifier.</li>
+		<li><b>Taxon Name:</b> The names of taxons.</li>
+		<li><b>Taxon Count:</b> The number of individuals of a particular taxon within a
+        particular sample.</li>
+		</ul>
+		</dd>
+		
+	<dl><b>Coefficient data:</b></dl><dd>Select a coefficient file that
 	represent taxon-environment relationships from those available
 	in <font face = "courier">bio.infer</font>.  Two coefficient files are
           currently available: temperature and sediment relationships
@@ -90,15 +98,18 @@
 	user generated coefficient file (using the <font face =
 	"courier">bio.infer</font> script <font face =
 	"courier">taxon.env</font>) can be loaded.
-	</p>
+	</dd>
+	</dt>
 
         <h1 id="toc2"><span class="SectionNumber"></span>Output file</h1>
-        <p><b>Results:</b> Select this option to save the results of
-        the script in a separate text file.</p>
-
-        <h1 id="toc3">
-          <span class="SectionNumber"></span>
-        </h1>
+        <dl id="toc4"><b>Results:</b></dl>
+		<dd>Select <b>Save R Results?</b> to export the results of
+        the script to a variable in the current R workspace (the default variable name is <font face="courier">pecboResult</font>).</dd>
+		</dt>
+		
+        <h2 id="toc3">
+          <span class="SectionNumber"></span>Explanation of PECBO Output</h2>
+		  <p>The inference data frame will have a column with the site identifier, a column for an estimate of environmental conditions computed, and a column labeled "Inconsistent". Sites at which Inconsistent is TRUE are sites in which the solution algorithm did not converge to a single solution. These sites typically do not have enough taxa to confidently infer environmental conditions, so inferences at these sites should be used with caution.</p>
         <h1 id="toc4">
           <span class="SectionNumber"></span>
         </h1>

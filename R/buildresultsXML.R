@@ -57,17 +57,33 @@ buildresultsXML <- function(object=NULL,title=" ",text=NULL,location=stop('Save 
 ## Generate a result folder with random name
 genResultSpace = function(){
   ## make sure results folder exists
-  if( !file.exists( file.path(.libPaths()[1],"CADStat","workspace","results") ) ){
-    dir.create(file.path(.libPaths()[1],"CADStat","workspace","results"))
+#  resultSpace = file.path(.libPaths()[1],"CADStat","workspace","results")
+  
+  # To conform to CRAN guidelines, this function
+  # generates a space for storing results in an R session's
+  # temporary directory.
+  
+  CADSTAT_TEMP_DIR = file.path(tempdir(), "CADStat")
+  
+  if ( !dir.exists( CADSTAT_TEMP_DIR ) ){
+    dir.create( CADSTAT_TEMP_DIR )
+  }
+  
+  resultSpace = file.path(CADSTAT_TEMP_DIR,"results")
+    if( !dir.exists( resultSpace )){
+    dir.create( resultSpace )
   }
   ## test to make sure folder doesn't currently exist
-  while( file.exists( (resFolder=file.path(.libPaths()[1],"CADStat","workspace","results",
+  while( dir.exists( (resFolder=file.path(resultSpace,
                          paste("result",ceiling(runif(1)*100000000),sep=""))) ) ){}
   dir.create(resFolder)
   return( resFolder )
 }
 
 ## Delete all results folders
+#' @export
 cleanCADStatWorkspace = function(){
-  unlink(file.path(.libPaths()[1],"CADStat","workspace","results","result*"),recursive=TRUE)
+  CADSTAT_TEMP_DIR = file.path(tempdir(), "CADStat")
+  resultSpace = file.path(CADSTAT_TEMP_DIR,"results")  
+  unlink(file.path(resultSpace,"result*"),recursive=TRUE)
 }

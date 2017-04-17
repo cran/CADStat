@@ -22,6 +22,7 @@ import org.neptuneinc.cadstat.utils.RUtils;
 import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
+import CADStat.java.plots.SubsetFormatter;
 
 /**
  *
@@ -396,9 +397,9 @@ public class ScatterPlot extends DataPlotDialog
     String cmd = "scatterplot2.JGR("
       + "my.data=" + this.getDatasetPane().getSelectedDataset()
       + ", subset1.name=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane1().getSelectedFactor() + "'")
-      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane1().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane1().getSelectedFactorValues()))
       + ", subset2.name=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane2().getSelectedFactor() + "'")
-      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane2().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane2().getSelectedFactorValues()))
       + ", x=" + "'" + GUIUtils.getSelectedItem(xComboBox) + "'"
       + ", y=" + "'" + GUIUtils.getSelectedItem(yComboBox) + "'"
       + ", main=" + "'" + plotTitle.getText() + "'"

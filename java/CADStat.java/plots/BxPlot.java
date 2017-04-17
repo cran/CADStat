@@ -24,6 +24,7 @@ import org.neptuneinc.cadstat.utils.RUtils;
 import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
+import CADStat.java.plots.SubsetFormatter;
 
 /**
  *
@@ -416,7 +417,7 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     + "my.data=" + datasetPane.getSelectedDataset()
     + ", result=" + GUIUtils.getSelectedItemR(resultComboBox)
     + ", group.name=" + (enableGroupByCheckBox.isSelected() ? RUtils.getStringValue(factorSubsetPane.getSelectedFactor()) : "NULL")
-    + ", group.val=" + (enableGroupByCheckBox.isSelected() && this.factorSubsetPane.getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.factorSubsetPane.getSelectedFactorValues(), ",", "'") + ")")
+    + ", group.val=" + (enableGroupByCheckBox.isSelected() && this.factorSubsetPane.getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.factorSubsetPane.getSelectedFactorValues()))
     + ", subset1.name=" + "NULL"
     + ", subset1.val=" + "NULL"
     + ", subset2.name=" + "NULL"
@@ -433,7 +434,7 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_submitButtonActionPerformed
 
 private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-  String cmd = "CADStat.help('bxplot.JGR')";
+  String cmd = "CADStat.help('boxplot.JGR')";
   JGR.MAINRCONSOLE.execute(cmd, true);
 }//GEN-LAST:event_helpButtonActionPerformed
 

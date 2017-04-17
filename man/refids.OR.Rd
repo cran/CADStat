@@ -5,7 +5,6 @@
 \description{
   Sample identifiers for reference site in western Oregon
 }
-\usage{data(envdata.or)}
 \format{
   A data frame with 245 observations on the following 13 variables.
   \describe{

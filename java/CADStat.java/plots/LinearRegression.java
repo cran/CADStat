@@ -24,6 +24,8 @@ import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
 
+import CADStat.java.plots.SubsetFormatter;
+
 /**
  *
  * @author  Pasha Minallah
@@ -657,9 +659,9 @@ private void saveResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     String cmd = "glm.JGR("
       + "my.data=" + (this.getDatasetPane().getDatasetComboBox() != null && this.getDatasetPane().getDatasetComboBox().getSelectedIndex() != -1 ? this.getDatasetPane().getSelectedDataset() : "NULL")
       + ", subset1.name=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : RUtils.getStringValue(this.getFactorSelectionPane1().getSelectedFactor()))
-      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane1().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane1().getSelectedFactorValues()))
       + ", subset2.name=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : RUtils.getStringValue(this.getFactorSelectionPane2().getSelectedFactor()))
-      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane2().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane2().getSelectedFactorValues()))
       + ", my.formula=" + "'" + this.getModelString() + "'"
       + ", my.family=" + distFamily
       + ", iCI=" + String.valueOf(confIntervals.isSelected()).toUpperCase()
@@ -679,7 +681,7 @@ private void saveResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
   @Override
   protected void helpButtonAction()
   {
-    String cmd = "CADStat.help('glm.JGR')";
+    String cmd = "CADStat.help('lm.JGR')";
     JGR.MAINRCONSOLE.execute(cmd, true);
     //JGR.MAINRCONSOLE.help("LinearRegression");
   }

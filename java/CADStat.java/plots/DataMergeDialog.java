@@ -80,6 +80,7 @@ public class DataMergeDialog extends JDialog implements WindowListener
         b.setModel(new DefaultComboBoxModel());
       }
     }
+    
   }
 
   private void refreshValidity()
@@ -99,23 +100,39 @@ public class DataMergeDialog extends JDialog implements WindowListener
     }
   }
 
+  // Checks to see if a dropdown box is blank.
+  private boolean isNotBlank(JComboBox variable){
+      return variable != null && variable.getSelectedIndex() != -1;
+  }
+  
   public void refreshSubmitButtonValidity()
   {
     boolean valid = true;
-
+       
+    // Checks to see if two datasets have been loaded.
     for (JComboBox datasetComboBox : this.getDatasetVariableMap().keySet())
     {
       valid = valid && (datasetComboBox != null && datasetComboBox.getSelectedIndex() != -1);
     }
 
-    for (List<JComboBox> l : this.getDatasetVariableMap().values())
-    {
-      for (JComboBox b : l)
-      {
-        valid = valid && (b != null && b.getSelectedIndex() != -1);
-      }
-    }
+    List<JComboBox> dataset1 = this.getDatasetVariableMap().get(this.getDataset1ComboBox());
+    List<JComboBox> dataset2 = this.getDatasetVariableMap().get(this.getDataset2ComboBox());
+    
+    int NumVariablesPerDataset = 3;
+    boolean hasOneByVariable = false;
+    
+    
+    for (int i=0; i<NumVariablesPerDataset; i++){
+        // Check if there's one by-variable to merge.
+        hasOneByVariable = hasOneByVariable || (isNotBlank(dataset1.get(i)) && isNotBlank(dataset2.get(i)));
 
+        // Check if a pair in a given row matches or not.        
+        valid = valid && (!(isNotBlank(dataset1.get(i)) || isNotBlank(dataset2.get(i)))||isNotBlank(dataset1.get(i)) && isNotBlank(dataset2.get(i)));           
+    }
+    
+    // Ensures that there is at least one by-variable to sort with.
+    valid = valid && hasOneByVariable;
+    
     submitButton.setEnabled(valid);
   }
 
@@ -128,7 +145,7 @@ public class DataMergeDialog extends JDialog implements WindowListener
     Object var21 = this.getBy21ComboBox().getSelectedItem();
     Object var22 = this.getBy22ComboBox().getSelectedItem();
     Object var23 = this.getBy23ComboBox().getSelectedItem();
-
+    
     try
     {
       Object[] datasets = RUtils.getDatasetList();
@@ -825,7 +842,7 @@ public class DataMergeDialog extends JDialog implements WindowListener
   }//GEN-LAST:event_dataset1ComboBoxActionPerformed
 
 private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-  String cmd = "datamerge.JGR("
+    String cmd = "datamerge.JGR("
     + "x=" + (this.getDataset1ComboBox() != null && this.getDataset1ComboBox().getSelectedIndex() != -1 ? this.getDataset1ComboBox().getSelectedItem() : "NULL")
     + ", y=" + (this.getDataset2ComboBox() != null && this.getDataset2ComboBox().getSelectedIndex() != -1 ? this.getDataset2ComboBox().getSelectedItem() : "NULL")
     + ", by11=" + GUIUtils.getSelectedItemR(by11ComboBox)
@@ -842,11 +859,11 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     + ", writeout=" + GUIUtils.getBooleanValueR(saveCheck)
     + ", outName=" + RUtils.getStringValue(nameText.getText())
     + ")";
-  JGR.MAINRCONSOLE.execute(cmd, true);
+    JGR.MAINRCONSOLE.execute(cmd, true);
 }//GEN-LAST:event_submitButtonActionPerformed
 
 private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-  String cmd = "CADStat.help('datamerge.JGR')";
+  String cmd = "CADStat.help('loaddata.JGR')";
   JGR.MAINRCONSOLE.execute(cmd, true);
 }//GEN-LAST:event_helpButtonActionPerformed
 

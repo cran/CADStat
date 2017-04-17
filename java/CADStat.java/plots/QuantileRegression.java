@@ -27,6 +27,7 @@ import org.neptuneinc.cadstat.utils.RUtils;
 import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
+import CADStat.java.plots.SubsetFormatter;
 
 /**
  *
@@ -552,9 +553,9 @@ private void independentListValueChanged(javax.swing.event.ListSelectionEvent ev
     String cmd = "rq.JGR("
       + "my.data=" + this.getDatasetPane().getSelectedDataset()
       + ", subset1.name=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane1().getSelectedFactor() + "'")
-      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane1().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane1().getSelectedFactorValues()))
       + ", subset2.name=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane2().getSelectedFactor() + "'")
-      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane2().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane2().getSelectedFactorValues()))
       + ", my.formula=" + "'" + modelEqTextArea.getText() + "'"
       + ", my.tau=" + "c(" + RUtils.toString(getColumn(quantileTable, 0), ",", "'") + ")"
       + ", iCI=" + String.valueOf(confIntervals.isSelected()).toUpperCase()

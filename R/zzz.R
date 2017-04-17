@@ -89,11 +89,11 @@
     jgr.addMenuItem("Help", "R Help", "help.start()")
     jgr.addMenuSeparator("Help")
     jgr.addMenuItem("Help", "Loading and merging data",
-  #                  "help(doc='loaddata.html')")
-                    "CADStat.help(doc='loaddata.html')")
+  #                  "help(doc='loaddata.JGR.html')")
+                    "CADStat.help(doc='loaddata.JGR.html')")
     jgr.addMenuItem("Help", "Boxplot",
   #                  "help('bxplot.JGR')")
-                    "CADStat.help(doc='bxplot.JGR.html')")
+                    "CADStat.help(doc='boxplot.JGR.html')")
     jgr.addMenuItem("Help", "Scatterplot",
   #                   "help('scatterplot.JGR')")
                      "CADStat.help(doc='scatterplot.JGR.html')")

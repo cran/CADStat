@@ -49,7 +49,7 @@
       <p>Select <i>Analysis Tools -&gt; Quantile Regression</i> from the menus.  A dialog box will open.  Select the data set of interest from the pull-down menu, or browse for a tab-delimited text file.  The Data Subsetting tab can be used to select a subset of the data file by choosing a variable from the pull down menu and then selecting the levels of that variable to include.  You can hold down the &lt;CTRL&gt; key to select several levels.</p>
       <p>Select a <b>Dependent</b> variable (the variable you wish to model).</p>
       <p>Select all explanatory (<b>Independent</b>) variables you wish to include in the model.  You can hold down the &lt;CTRL&gt; key to select several variables. <i>Note</i>: the dependent variable is in the list of possible independent variables, but it <i>should not</i> be selected as an independent variable. </p>
-      <p>Type in the quantiles that you wish to estimate in the Quantiles dialog.  You may type in up to 8 quantiles, all of which must be between 0 and 1.  These must be typed from top to bottom – skipped lines will result in later values being ignored.  Be sure that you hit &lt;TAB&gt; or &lt;ENTER&gt; after typing in your last quantile and before hitting <b>Submit</b>, or the last quantile will not register.  </p>
+      <p>Type in the quantiles that you wish to estimate in the Quantiles dialog.  You may type in up to 8 quantiles, all of which must be between 0 and 1.  These must be typed from top to bottom &mdash; skipped lines will result in later values being ignored.  Be sure that you hit &lt;TAB&gt; or &lt;ENTER&gt; after typing in your last quantile and before hitting <b>Submit</b>, or the last quantile will not register.  </p>
       <p>Confidence intervals for the regression coefficients are generated only if <b>Compute Confidence Intervals</b> is selected.  The confidence level can be changed only after <b>Compute Confidence Intervals</b><i> </i>is selected.</p>
       <p>If <b>Regression Scatterplot</b><i> </i>is selected, then one scatterplot is plotted for each independent variable, of the dependent versus independent variable with overlaid quantile regression fits.  Confidence bounds on the fit are added to the plot if <b>Coefficient Confidence Bands</b> is chosen.</p>
       <p>The output is the regression coefficients, with confidence bounds if selected, and scatterplots if selected.</p>
@@ -57,19 +57,19 @@
       <p>First select <i>Analysis Tools -&gt; Quantile regression</i>.</p>
       <p></p>
       <div style="text-align:center">
-        <img alt="graphics1" class="frameGraphics" id="graphics17Cgraphics" src="rq.JGR-img1.png" style="width:480.0px;height:176.99521px" />
+        <img alt="graphics1" class="frameGraphics" id="graphics17Cgraphics" src="../img/rq.JGR-img1.png" style="width:480.0px;height:176.99521px" />
       </div>
       <p></p>
       <p>Once this is selected, a new dialog window should appear. Specify <tt>mergedData</tt> as your active dataset (see help page for Loading and merging data for information on loading CADStat example data).</p>
       <p></p>
       <div style="text-align:center">
-        <img alt="graphics2" class="frameGraphics" id="graphics27Cgraphics" src="rq.JGR-img2.png" style="width:464.016px;height:499.99683px" />
+        <img alt="graphics2" class="frameGraphics" id="graphics27Cgraphics" src="../img/rq.JGR-img2.png" style="width:464.016px;height:499.99683px" />
       </div>
       <p></p>
       <p></p>
       <p>Here average stream temperature (<tt>temp.avg</tt>) has been selected as the response (dependent) variable and elevation<i> </i>(<tt>elev.ut</tt>) has been selected as the explanatory (independent) variable.  The default quantile is 0.50, but for this example we have changed it to 0.1 and 0.9. Once the quantile has been changed, you must hit the enter key to commit the change. There is an additional option to display the <b>Regression Scatterplot</b>. That option is selected in this example. The following figure shows the regression scatterplot, with the line corresponding to the parametric regression for the mean (simple linear regression), and the lines corresponding to the quantile regressions for the 10th and 90th quantiles.  The parameter estimates are also presented in the CADStat console.</p>
       <div style="text-align:center">
-        <img alt="graphics3" class="frameGraphics" id="graphics37Cgraphics" src="rq.JGR-img3.png" style="width:499.99683px;height:399.984px" />
+        <img alt="graphics3" class="frameGraphics" id="graphics37Cgraphics" src="../img/rq.JGR-img3.png" style="width:499.99683px;height:399.984px" />
       </div>
       <p></p>
       <h1 id="toc3">

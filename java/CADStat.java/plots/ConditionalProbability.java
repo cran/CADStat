@@ -22,6 +22,7 @@ import org.neptuneinc.cadstat.utils.RUtils;
 import org.rosuda.JGR.JGR;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
+import CADStat.java.plots.SubsetFormatter;
 
 /**
  *
@@ -150,7 +151,7 @@ public class ConditionalProbability extends DataPlotDialog
       {
         className = RUtils.evalAsString(classCmd);
 
-        if (className != null && className.compareTo("numeric") == 0)
+        if (className != null && (className.compareTo("numeric") == 0 || className.compareTo("integer")==0))
         {
           range = RUtils.evalAsVector(rangeCmd);
           mean = RUtils.evalAsVector(meanCmd);
@@ -682,9 +683,9 @@ private void stressorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
       + ", alpha=" + alphaSpinner.getValue()
       + ", R=" + (bootstrapCheckBox.isSelected() ? numBootstrapsSpinner.getValue() : "NULL")
       + ", subset1.name=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane1().getSelectedFactor() + "'")
-      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane1().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset1.val=" + (this.getFactorSelectionPane1().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane1().getSelectedFactorValues()))
       + ", subset2.name=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "'" + this.getFactorSelectionPane2().getSelectedFactor() + "'")
-      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : "c(" + RUtils.toString(this.getFactorSelectionPane2().getSelectedFactorValues(), ",", "'") + ")")
+      + ", subset2.val=" + (this.getFactorSelectionPane2().getFactorValueList().isSelectionEmpty() ? "NULL" : SubsetFormatter.formatSubset(this.getFactorSelectionPane2().getSelectedFactorValues()))
       + ", main=" + RUtils.getStringValue(plotTitle.getText())
       + ", xlab=" + RUtils.getStringValue(xAxis.getText())
       + ", ylab=" + RUtils.getStringValue(yAxis.getText())

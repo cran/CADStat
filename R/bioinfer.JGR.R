@@ -141,6 +141,7 @@ bioinfer.JGR <- function (bio.data = NULL, subset1.name = NULL, subset1.val = NU
     pos <- 1
     envir = as.environment(pos)
 
+    assign( "sum.otu.txt", bcnt.otu, envir = envir)
     assign(globenv[["resultName"]], result, envir = envir)
     cat("Results are saved in ", globenv[["resultName"]], 
         ".\n", sep = "")
