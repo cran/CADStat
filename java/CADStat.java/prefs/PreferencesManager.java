@@ -46,8 +46,11 @@ public class PreferencesManager
 
   public void importPreferences() throws FileNotFoundException, IOException, InvalidPreferencesFormatException
   {
+      try{
     Preferences.importPreferences(new FileInputStream(this.getPreferencesFile()));
-
+      } catch (FileNotFoundException e){
+          System.out.println("Preferences file not found at '" + this.getPreferencesFile().getAbsolutePath() + "'. Using default preferences.");
+      }
     this.getCadstatPreferences().setDataPointColor(DataPointColor.valueOf(this.getPreferences().get("DataPointColor", DataPointColor.BLACK.name())));
     this.getCadstatPreferences().setPlotCharacter(PlotCharacter.valueOf(this.getPreferences().get("PlotChar", PlotCharacter.OPEN_CIRCLE.name())));
     this.getCadstatPreferences().setPlotTitleMagnification(this.getPreferences().getFloat("PlotTitleMag", CadstatPreferences.DEFAULT_MAGNIFICATION));

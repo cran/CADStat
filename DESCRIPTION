@@ -1,14 +1,13 @@
 Package: CADStat
-Version: 3.0.7
-Date: 2017-04-17
+Version: 3.0.8
+Date: 2017-05-09
 Title: Provides a GUI to Several Statistical Methods
 Author: Lester Yuan, Tom Stockton, Doug Bronson, Pasha Minallah, and
     Mark Fitzgerald
 Maintainer: David Rebhuhn <rebhuhn.david@epa.gov>
 Depends: R (>= 2.15.0), JGR (>= 1.7-10)
 Imports: rJava, XML, lattice, bio.infer, gdata, gmodels, quantreg,
-        rpart, JavaGD, car, MASS, iplots, SparseM, MatrixModels,
-        gtools, png, pbkrtest, lme4, minqa, Rcpp, nloptr
+        rpart, JavaGD, car, MASS,
 Description: Using Java GUI for R (JGR), CADStat provides a user
     interface for several statistical methods -
     scatterplot, boxplot, linear regression, generalized linear
@@ -19,6 +18,6 @@ URL: http://www.rforge.net/CADStat/
 LazyData: true
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-04-17 20:00:51 UTC; drebhuhn
+Packaged: 2017-05-09 22:45:46 UTC; drebhuhn
 Repository: CRAN
-Date/Publication: 2017-04-17 23:25:59 UTC
+Date/Publication: 2017-05-10 02:09:22 UTC

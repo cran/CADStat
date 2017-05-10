@@ -56,13 +56,13 @@
       <p>First launch the tree regression tool by selecting <i>Analysis Tools -&gt; Tree Regression</i>.</p>
       <p></p>
       <div style="text-align:center">
-        <img alt="graphics1" class="frameGraphics" id="graphics17Cgraphics" src="../img/rpart.JGR-img1.png" style="width:480.0px;height:216.0px" />
+        <img alt="Screenshot of JGR console. Tree Regression, under the Analysis Tools tab, has been selected." class="frameGraphics" id="graphics17Cgraphics" src="../img/rpart.JGR-img1.png" style="width:480.0px;height:216.0px" />
       </div>
       <p></p>
       <p>Once this option is selected, a new window will open with the available options for the tree regression analysis.</p>
       <p></p>
       <div style="text-align:center">
-        <img alt="graphics4" class="frameGraphics" id="graphics47Cgraphics" src="../img/rpart.JGR-img2.png" style="width:432.0px;height:384.0px" />
+        <img alt="Screenshot of Tree Regression dialog page. MergedData has been selected as the Active Dataset. The model equation is temp avg ~ lat + area + elev.ut. The Dependant variable has been set to 'temp.avg', and Independent variables are 'lat', 'area', and 'elev.ut'." class="frameGraphics" id="graphics47Cgraphics" src="../img/rpart.JGR-img2.png" style="width:432.0px;height:384.0px" />
       </div>
       <p></p>
       <p>For this example, select <tt>mergedData</tt> as your active dataset (see help page on Loading and merging data for information on loading CADStat example data).  Then, select average stream temperature (<tt>temp.avg</tt>) as the response/dependent variable.  Hold down the &lt;CTRL&gt; key and select latitude, log catchment area, and elevation (<tt>lat, area, elev.ut</tt>) as explanatory variables.  The<i> </i><b>Min Split</b> variable specifies how many cases need to be in each split. As this number decreases, splits are more likely to be made. The <b>Min Bucket</b> variable specifies the minimum number of observations that must exist in any terminal node. The <b>CP</b> variable is a complexity parameter. As the value of this parameter is increased, the effective difference between groups that is needed for a split to occur increases as well. In an ANOVA context, the <b>CP</b> variable corresponds to the increase in the R2 needed to perform a split. With large dataset, increasing the <b>CP</b> variable decreases the computing time needed. In this example, it is left at the default 0.01.</p>
@@ -196,7 +196,7 @@
       <p></p>
       <p>...but these results are best viewed graphically, as shown in the plot window:</p>
       <div style="text-align:center">
-        <img alt="graphics3" class="frameGraphics" id="graphics37Cgraphics" src="../img/rpart.JGR-img3.png" style="width:715.9968px;height:412.992px" />
+        <img alt="Screenshot of a regression tree generated from the mergedData dataset via the Tree Regression dialog." class="frameGraphics" id="graphics37Cgraphics" src="../img/rpart.JGR-img3.png" style="width:715.9968px;height:412.992px" />
       </div>
       <p></p>
       <p></p>

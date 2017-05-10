@@ -488,7 +488,7 @@ private void horizontalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
   public void refreshSampleSizes()
   {
     sampleSizes.setSelected(!horizontal.isSelected() && sampleSizes.isSelected());
-    sampleSizes.setEnabled(!horizontal.isSelected());
+    //  sampleSizes.setEnabled(!horizontal.isSelected());
   }
 
   public void refreshVariableList()

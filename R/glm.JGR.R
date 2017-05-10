@@ -147,6 +147,8 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
 #  }else{
 #    my.fit.est = NULL
 #  }
+  
+  margins=c(5,6,2,2)
 
   #produce diagnostic plots if necessary
   iPlotLM = c(iDiag.1, iDiag.2, iDiag.3, iDiag.4)
@@ -159,7 +161,7 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
     } else {
       JavaGD(name=fig.name[i], width=500, height=400, ps=14)
     }
-    par(mar=c(4,4,2,1))
+    par(mar=margins)
     plot(my.fit, which=i, caption=NULL, sub.caption="")
     if (browserResults) dev.off()
   }
@@ -171,7 +173,7 @@ glm.JGR = function(my.data, sampsize.name=NULL, subset1.name=NULL, subset1.val=N
     } else {
       JavaGD(name="Influence plot",width=500, height=400, ps=14)
     }
-    par(mar=c(4,4,2,1))
+    par(mar=margins)
     influencePlot(my.fit, main="Influence Plot", labels=FALSE)
     #identify triggers warnings... auto by default possibly. Look Into using ellipses
     #influencePlot(my.fit, main="Influence Plot", labels=FALSE, identify = "auto") 

@@ -46,16 +46,23 @@ scatterplot2.JGR = function(my.data, subset1.name, subset1.val, subset2.name, su
 	##par(mfrow=c(nRow,nCol))
   
 	##draw the scatterplot(s)
+	
+	## collect points to be drawn on a single scatterplot
+	xValues = c()
+	yValues = c()
+	
 	if (n.val1>0 & n.val2>0) {
 		for (i in 1:n.val1)
 		{
 			for (j in 1:n.val2)
 			{
 				ind = my.data[,subset1.name]%in%subset1.val[i] & my.data[,subset2.name]%in%subset2.val[j]
-
+        xValues = c(xValues, my.data[ind, x])
+        yValues = c(yValues, my.data[ind, y])
+        
 				#png(file=file.path(resultLocation, paste(subset1.val[i]," ",subset2.val[j],".png",sep="")), width=600, height=600)
-				scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset1.val[i], subset2.val[j], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
-								cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
+#				scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset1.val[i], subset2.val[j], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
+#								cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
 				#dev.off()
 			}
 		}
@@ -64,9 +71,12 @@ scatterplot2.JGR = function(my.data, subset1.name, subset1.val, subset2.name, su
 		{
 			ind = my.data[,subset1.name] %in% subset1.val[i]
 
+			xValues = c(xValues, my.data[ind, x])
+			yValues = c(yValues, my.data[ind, y])
+			
 			#png(file=file.path(resultLocation, paste(subset1.val[i],".png",sep="")), width=600,height=600)
-			scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset1.val[i], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
-							cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
+#			scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset1.val[i], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
+#							cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
 			#dev.off()
       }
 	} else if (n.val2 > 0) {        
@@ -74,16 +84,25 @@ scatterplot2.JGR = function(my.data, subset1.name, subset1.val, subset2.name, su
 		{
 			ind = my.data[,subset2.name] %in% subset2.val[i]
 			#png(file=file.path(resultLocation, paste(subset2.val[i],".png",sep="")), width=600,height=600)
-			scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset2.val[i], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
-							cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
+			
+			xValues = c(xValues, my.data[ind, x])
+			yValues = c(yValues, my.data[ind, y])			
+#			scatterplot2(my.data[ind, x], my.data[ind, y], xName=x, yName=y, main=paste(subset2.val[i], main), xlab=xlab, ylab=ylab, pch=pch, col=col,
+#							cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
 			#dev.off()
 		}
 	} else {
 		#png(file=file.path(resultLocation, "Scatterplot.png"), width=600,height=600)
-		scatterplot2(my.data[,x], my.data[,y], xName=x, yName=y, main=main, xlab=xlab, ylab=ylab, pch=pch, col=col,
-						cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
+	  xValues=my.data[,x]
+	  yValues=my.data[,y]
+#		scatterplot2(my.data[,x], my.data[,y], xName=x, yName=y, main=main, xlab=xlab, ylab=ylab, pch=pch, col=col,
+#						cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)
 		#dev.off()
-  }
+	}
+
+		scatterplot2(xValues, yValues, xName=x, yName=y, main=main, xlab=xlab, ylab=ylab, pch=pch, col=col,
+	             cex.main=cex.main, cex.lab=cex.lab, cex=cex, cex.axis=cex.axis, add.lm=add.lm, add.loess=add.loess, add.conf=add.conf, add.pred=add.pred, conf=conf)	
+	
   
 #buildresultsXML(title="Scatterplots",location=resultLocation)
 }

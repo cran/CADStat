@@ -1,5 +1,8 @@
 CADStat NEWS
-3.0.6
+3.0.8
+	o	Fixed scatterplot subsetting issue.
+	o	Fixed error generated when CADStat cannot find a preferences file.
+3.0.7
 	o 	Fixed bugs identified by QA.
 	o 	Updated help files to reflect current functionality.
 	o	Reinstated datasets referenced by help files.
